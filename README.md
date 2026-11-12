@@ -1,5 +1,7 @@
 # C28 hyperdiamond: a dynamical-stability screening
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.24154048.svg)](https://doi.org/10.5281/zenodo.24154048)
+
 C28 hyperdiamond is a hypothetical carbon crystal proposed in 1992: diamond's lattice with a 28-atom fullerene cage on every site. It has been studied with density-functional theory (DFT) but never synthesised.
 
 This repository asks one question: **is the structure dynamically stable, meaning free of vibrational modes that would tear it apart?** It answers at screening level with a machine-learned interatomic potential, and states plainly what that does and does not show.
@@ -105,6 +107,8 @@ The calculations, scripts and write-up were produced with the help of an AI codi
 ## Citing and licence
 
 If you use this work, please cite it using `CITATION.cff` (GitHub shows a "Cite this repository" button).
+
+Archived on Zenodo: https://doi.org/10.5281/zenodo.24154048
 
 - Code: MIT licence, see `LICENSE`.
 - Text, data and figures: Creative Commons Attribution 4.0 International (CC BY 4.0), https://creativecommons.org/licenses/by/4.0/. Reuse is welcome with credit.

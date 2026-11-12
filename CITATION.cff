@@ -5,6 +5,7 @@ type: dataset
 authors:
   - name: "davinainebyona"
     website: "https://github.com/davinainebyona"
+doi: 10.5281/zenodo.24154048
 repository-code: "https://github.com/davinainebyona/c28-hyperdiamond-stability"
 date-released: 2026-11-12
 version: "0.1.0"
