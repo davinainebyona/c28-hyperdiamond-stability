@@ -1,0 +1,44 @@
+&CONTROL
+   calculation      = 'vc-relax'
+   tstress          = .true.
+   tprnfor          = .true.
+   outdir           = '/home/runner/work/c28-hyperdiamond-stability/c28-hyperdiamond-stability/dft/tmp_diamond_relax'
+   prefix           = 'diamond_relax'
+   etot_conv_thr    = 1e-06
+   forc_conv_thr    = 0.0001
+   disk_io          = 'low'
+   pseudo_dir       = '/home/runner/work/c28-hyperdiamond-stability/c28-hyperdiamond-stability/dft/pseudo'
+/
+&SYSTEM
+   ecutwfc          = 45.0
+   ecutrho          = 360.0
+   occupations      = 'fixed'
+   ntyp             = 1
+   nat              = 2
+   ibrav            = 0
+/
+&ELECTRONS
+   electron_maxstep = 200
+   conv_thr         = 1e-09
+   mixing_beta      = 0.5
+/
+&IONS
+/
+&CELL
+   press_conv_thr   = 0.3
+/
+ATOMIC_SPECIES
+C 12.011 C.pbe-n-kjpaw_psl.1.0.0.UPF
+
+K_POINTS automatic
+8 8 8  0 0 0
+
+CELL_PARAMETERS angstrom
+0.00000000000000 1.78500000000000 1.78500000000000
+1.78500000000000 0.00000000000000 1.78500000000000
+1.78500000000000 1.78500000000000 0.00000000000000
+
+ATOMIC_POSITIONS angstrom
+C 0.0000000000 0.0000000000 0.0000000000  
+C 0.8925000000 0.8925000000 0.8925000000  
+
