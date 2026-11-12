@@ -1,0 +1,707 @@
+<title>C28 Hyperdiamond</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>
+/* Layout: a centred headline, then one large stage holding the model with floating glass controls; its caption sits directly beneath. Figures, a spec comparison, findings and a numbered method follow in quiet, widely spaced sections. */
+:root{
+  --bg:#ffffff; --bg-2:#f5f5f7; --ink:#1d1d1f; --ink-2:#6e6e73; --ink-3:#86868b; --hair:rgba(0,0,0,.12); --link:#0066cc;
+  --stage:#f5f5f7; --stage-ground:#9a9aa3;
+  --glass:rgba(255,255,255,.72); --glass-edge:rgba(255,255,255,.75); --glass-shadow:0 10px 30px rgba(0,0,0,.12),0 1px 2px rgba(0,0,0,.08);
+  --glass-solid:#ffffff; --thumb:#ffffff; --thumb-shadow:0 1px 4px rgba(0,0,0,.2);
+  --apex:#f08a00; --atom-b:#3f7fd0; --atom-c:#8e8e93; --bond:#b4b4bb; --guest:#e0457b; --face-p:#3f7fd0; --face-h:#28a99a; --boxline:#b3b3bb;
+  --blue:#0066cc; --blue-soft:rgba(0,102,204,.1); --green:#1d7f4f; --green-soft:rgba(29,127,79,.12); --pink:#b8275f; --pink-soft:rgba(192,42,102,.1);
+  --font:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI Variable Text","Segoe UI",system-ui,Roboto,"Helvetica Neue",Arial,sans-serif;
+  --font-display:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI Variable Display","Segoe UI",system-ui,Roboto,"Helvetica Neue",Arial,sans-serif;
+  --font-mono:ui-monospace,"SF Mono","Cascadia Mono",Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#000000; --bg-2:#161617; --ink:#f5f5f7; --ink-2:#a1a1a6; --ink-3:#86868b; --hair:rgba(255,255,255,.16); --link:#2997ff;
+    --stage:#0e0e10; --stage-ground:#1a1d26;
+    --glass:rgba(44,44,47,.66); --glass-edge:rgba(255,255,255,.14); --glass-shadow:0 10px 30px rgba(0,0,0,.5);
+    --glass-solid:#2c2c2e; --thumb:#636366; --thumb-shadow:0 1px 4px rgba(0,0,0,.45);
+    --apex:#ffb340; --atom-b:#6aa9ff; --atom-c:#d1d1d6; --bond:#5c5c63; --guest:#ff6fa3; --face-p:#6aa9ff; --face-h:#52cbb9; --boxline:#4a4a50;
+    --blue:#2997ff; --blue-soft:rgba(41,151,255,.16); --green:#30d158; --green-soft:rgba(48,209,88,.14); --pink:#ff6fa3; --pink-soft:rgba(255,111,163,.15);
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#000000; --bg-2:#161617; --ink:#f5f5f7; --ink-2:#a1a1a6; --ink-3:#86868b; --hair:rgba(255,255,255,.16); --link:#2997ff;
+  --stage:#0e0e10; --stage-ground:#1a1d26;
+  --glass:rgba(44,44,47,.66); --glass-edge:rgba(255,255,255,.14); --glass-shadow:0 10px 30px rgba(0,0,0,.5);
+  --glass-solid:#2c2c2e; --thumb:#636366; --thumb-shadow:0 1px 4px rgba(0,0,0,.45);
+  --apex:#ffb340; --atom-b:#6aa9ff; --atom-c:#d1d1d6; --bond:#5c5c63; --guest:#ff6fa3; --face-p:#6aa9ff; --face-h:#52cbb9; --boxline:#4a4a50;
+  --blue:#2997ff; --blue-soft:rgba(41,151,255,.16); --green:#30d158; --green-soft:rgba(48,209,88,.14); --pink:#ff6fa3; --pink-soft:rgba(255,111,163,.15);
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:400 1.0625rem/1.47 var(--font);font-optical-sizing:auto;-webkit-font-smoothing:antialiased}
+.page{max-width:68rem;margin:0 auto;padding-block:3.5rem 5rem;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:5.5rem}
+h1,h2,h3{font-family:var(--font-display);margin:0;text-wrap:balance}
+h1{font-size:clamp(2.75rem,8.5vw,5.25rem);font-weight:600;line-height:1.04;letter-spacing:-0.028em}
+h2{font-size:clamp(1.9rem,4.4vw,2.75rem);font-weight:600;line-height:1.08;letter-spacing:-0.022em}
+h3{font-size:1.3125rem;font-weight:600;line-height:1.2;letter-spacing:-0.012em}
+p{margin:0}
+a{color:var(--link);text-decoration:none}
+a:hover{text-decoration:underline}
+sub{font-size:.62em;letter-spacing:0}
+button{font-family:inherit}
+:focus-visible{outline:2px solid var(--link);outline-offset:2px}
+section{display:flex;flex-direction:column;gap:1.75rem;min-width:0}
+.lead{font-size:1.3125rem;line-height:1.38;letter-spacing:-0.006em;color:var(--ink-2);max-width:40rem}
+
+.hero{display:flex;flex-direction:column;align-items:center;text-align:center;gap:1rem}
+.eyebrow{font-size:1.0625rem;font-weight:600;color:var(--apex);letter-spacing:-0.005em}
+.hero .lead{max-width:38rem}
+
+/* stage */
+.stagewrap{gap:1.75rem}
+.stage{position:relative;background:var(--stage);border-radius:1.75rem;overflow:hidden;aspect-ratio:16/10;max-width:100%;min-height:24rem}
+.stage canvas{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:pan-y;cursor:grab;outline:none}
+.stage canvas:active{cursor:grabbing}
+.stage canvas:focus-visible{box-shadow:inset 0 0 0 2px var(--link);border-radius:1.75rem}
+.glass{background:var(--glass);-webkit-backdrop-filter:blur(20px) saturate(180%);backdrop-filter:blur(20px) saturate(180%);box-shadow:var(--glass-shadow),inset 0 1px 0 var(--glass-edge)}
+.seg{position:absolute;top:.875rem;left:50%;transform:translateX(-50%);display:grid;grid-template-columns:repeat(5,minmax(5.25rem,1fr));padding:3px;border-radius:999px}
+.seg .thumb{position:absolute;top:3px;bottom:3px;left:3px;width:calc((100% - 6px)/5);border-radius:999px;background:var(--thumb);box-shadow:var(--thumb-shadow);will-change:transform;pointer-events:none}
+.seg button{position:relative;z-index:1;border:0;background:none;color:var(--ink-2);font-size:.8125rem;font-weight:500;letter-spacing:.004em;padding:.5rem .25rem;border-radius:999px;cursor:pointer;transition:transform 100ms ease-out,color 160ms ease}
+.seg button:active{transform:scale(.95)}
+.seg button[aria-pressed="true"]{color:var(--ink);font-weight:600}
+.pill{position:absolute;bottom:.875rem;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:2px;padding:3px;border-radius:999px;white-space:nowrap}
+.pill button{border:0;background:none;color:var(--ink);font-size:.8125rem;font-weight:500;letter-spacing:.004em;padding:.5rem .8rem;border-radius:999px;cursor:pointer;transition:transform 100ms ease-out,background-color 160ms ease}
+.pill button:active{transform:scale(.94)}
+.pill button[aria-pressed="true"]{background:var(--thumb);box-shadow:var(--thumb-shadow);font-weight:600}
+.pill button:disabled{opacity:.35;cursor:default}
+.pill .zoom{font-size:1.05rem;line-height:1;padding:.4rem .75rem}
+.pill i{width:1px;height:1.1rem;background:var(--hair);margin:0 3px}
+.scalebar{position:absolute;right:1.1rem;bottom:1.15rem;display:flex;flex-direction:column;align-items:flex-end;gap:4px;font-size:.75rem;font-weight:500;letter-spacing:.01em;color:var(--ink-2);pointer-events:none;font-variant-numeric:tabular-nums}
+.scalebar i{display:block;height:5px;border:1.5px solid var(--ink-3);border-top:0;border-radius:0 0 2px 2px}
+.hint{position:absolute;left:1.1rem;bottom:1.15rem;font-size:.75rem;font-weight:500;letter-spacing:.01em;color:var(--ink-2);pointer-events:none;max-width:14rem;transition:opacity 400ms ease}
+.hint.gone{opacity:0}
+.nogl{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:5rem 2rem;text-align:center;color:var(--ink-2)}
+.caption{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:2.5rem 3.5rem;align-items:start}
+.cap-text{display:flex;flex-direction:column;gap:.75rem;min-width:0}
+.cap-text h2{font-size:clamp(1.6rem,3.4vw,2.1rem)}
+.cap-text p{color:var(--ink-2);max-width:36rem}
+.cap-side{display:flex;flex-direction:column;gap:1.25rem;min-width:0}
+.stats{display:grid;grid-template-columns:1fr auto;gap:.55rem 1rem;margin:0;font-size:.9375rem}
+.stats dt{color:var(--ink-2)}
+.stats dd{margin:0;font-weight:600;font-variant-numeric:tabular-nums;text-align:right}
+.key{list-style:none;margin:0;padding:1.1rem 0 0;border-top:1px solid var(--hair);display:flex;flex-direction:column;gap:.45rem;font-size:.8125rem;letter-spacing:.004em;color:var(--ink-2)}
+.key li{display:flex;align-items:center;gap:.6rem}
+.key b{flex:none;width:.7rem;height:.7rem;border-radius:50%}
+.key b.bar{width:1rem;height:.25rem;border-radius:2px}
+@media (max-width:760px){
+  .page{gap:4rem;padding-block:2.25rem 4rem}
+  .stage{aspect-ratio:4/5;border-radius:1.4rem}
+  .seg{left:.6rem;right:.6rem;transform:none;grid-template-columns:repeat(5,minmax(0,1fr))}
+  .seg button{font-size:.75rem;padding:.5rem 0}
+  .pill{left:.6rem;transform:none}
+  .pill button{padding:.5rem .6rem}
+  .hint{display:none}
+  .scalebar{right:.9rem;bottom:auto;top:3.6rem}
+  .caption{grid-template-columns:minmax(0,1fr)}
+}
+
+/* figures */
+.glance{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,13rem),1fr));gap:2.5rem 2rem;text-align:center}
+.fig{display:flex;flex-direction:column;gap:.4rem;align-items:center;min-width:0}
+.fig strong{font-family:var(--font-display);font-size:clamp(2.4rem,5vw,3.25rem);font-weight:600;line-height:1.05;letter-spacing:-0.03em;font-variant-numeric:tabular-nums}
+.fig strong span{font-size:.5em;letter-spacing:-0.01em;margin-left:.12em;color:var(--ink-2)}
+.fig p{font-size:.9375rem;color:var(--ink-2);max-width:14rem}
+.note{font-size:.8125rem;letter-spacing:.004em;color:var(--ink-3);text-align:center}
+
+/* spec table */
+.tablebox{overflow-x:auto}
+table{border-collapse:collapse;width:100%;min-width:36rem;font-size:.9375rem}
+th,td{text-align:left;padding:1rem 1.25rem 1rem 0;border-bottom:1px solid var(--hair);vertical-align:top}
+thead th{font-size:.8125rem;font-weight:600;letter-spacing:.004em;color:var(--ink-3);padding-bottom:.6rem}
+tbody th{font-weight:400;color:var(--ink-2);width:26%}
+td{font-variant-numeric:tabular-nums}
+td.v{font-weight:600}
+td small{display:block;font-weight:400;font-size:.8125rem;letter-spacing:.004em;color:var(--ink-3);margin-top:.25rem;max-width:26rem}
+
+/* findings */
+.finds{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,19rem),1fr));gap:1rem}
+.find{background:var(--bg-2);border-radius:1.4rem;padding:1.75rem;display:flex;flex-direction:column;gap:.7rem;min-width:0}
+.find p{color:var(--ink-2);font-size:.9375rem;line-height:1.5}
+.find.wide{grid-column:1/-1}
+.find.wide p{max-width:44rem}
+.tag{align-self:flex-start;font-size:.75rem;font-weight:600;letter-spacing:.012em;padding:.2rem .6rem;border-radius:999px}
+.tag.calc{color:var(--blue);background:var(--blue-soft)}
+.tag.meas{color:var(--green);background:var(--green-soft)}
+.tag.spec{color:var(--pink);background:var(--pink-soft)}
+
+/* method */
+.steps{list-style:none;margin:0;padding:0;counter-reset:s}
+.steps li{counter-increment:s;display:grid;grid-template-columns:3.5rem minmax(0,1fr);gap:.35rem 1rem;padding:1.6rem 0;border-top:1px solid var(--hair)}
+.steps li::before{content:counter(s);font-family:var(--font-display);font-size:2rem;font-weight:600;line-height:1;letter-spacing:-0.03em;color:var(--ink-3);grid-row:span 2;font-variant-numeric:tabular-nums}
+.steps h3 span{display:inline-block;font-family:var(--font);font-size:.8125rem;font-weight:500;letter-spacing:.004em;color:var(--ink-3);margin-left:.5rem}
+.steps p{color:var(--ink-2);max-width:42rem}
+code{font-family:var(--font-mono);font-size:.86em;background:var(--bg-2);padding:.1em .35em;border-radius:.35em}
+details{background:var(--bg-2);border-radius:1.4rem}
+summary{cursor:pointer;padding:1.1rem 1.5rem;font-weight:600;border-radius:1.4rem}
+.cifbox{padding:0 1.5rem 1.5rem;display:flex;flex-direction:column;gap:.9rem}
+.cifbox p{color:var(--ink-2);font-size:.9375rem;max-width:42rem}
+.btn{align-self:flex-start;border:0;background:var(--link);color:#fff;font-size:.875rem;font-weight:600;padding:.55rem 1.1rem;border-radius:999px;cursor:pointer;transition:transform 100ms ease-out}
+.btn:active{transform:scale(.96)}
+pre{margin:0;max-height:16rem;overflow:auto;font:400 .78rem/1.5 var(--font-mono);background:var(--bg);border-radius:.8rem;padding:1rem;-webkit-user-select:all;user-select:all}
+.srcs{margin:0;padding-left:1.3rem;display:flex;flex-direction:column;gap:.6rem;font-size:.875rem;line-height:1.45;color:var(--ink-2);max-width:52rem}
+.srcs b{color:var(--ink);font-weight:600}
+footer{font-size:.8125rem;line-height:1.5;letter-spacing:.004em;color:var(--ink-3);max-width:46rem;border-top:1px solid var(--hair);padding-top:1.25rem}
+
+@media (prefers-reduced-transparency: reduce){
+  .glass{background:var(--glass-solid);-webkit-backdrop-filter:none;backdrop-filter:none}
+}
+@media (prefers-contrast: more){
+  .glass{background:var(--glass-solid);-webkit-backdrop-filter:none;backdrop-filter:none;outline:1px solid var(--ink)}
+  :root{--ink-2:var(--ink);--ink-3:var(--ink)}
+}
+@media (prefers-reduced-motion: reduce){
+  .seg button,.pill button,.btn{transition:none}
+}
+</style>
+
+<div class="page">
+  <header class="hero">
+    <span class="eyebrow">Proposed 1992. Not yet made.</span>
+    <h1>C<sub>28</sub> hyperdiamond</h1>
+    <p class="lead">Take diamond's lattice and replace every atom with a 28-atom carbon cage. It exists in density-functional calculations, not yet in a lab. The model is built from the published bond lengths.</p>
+  </header>
+
+  <section class="stagewrap" aria-label="Interactive model">
+    <div class="stage" id="stage">
+      <canvas id="gl" tabindex="0" role="img" aria-label="Rotatable 3D model of C28 hyperdiamond"></canvas>
+      <div class="seg glass" role="group" aria-label="Build-up stage">
+        <span class="thumb" id="thumb"></span>
+        <button type="button" id="tab-1" data-stage="1" aria-pressed="false">Cage</button>
+        <button type="button" id="tab-2" data-stage="2" aria-pressed="false">Bonds</button>
+        <button type="button" id="tab-3" data-stage="3" aria-pressed="true">Cell</button>
+        <button type="button" id="tab-4" data-stage="4" aria-pressed="false">Crystal</button>
+        <button type="button" id="tab-5" data-stage="5" aria-pressed="false">Diamond</button>
+      </div>
+      <div class="hint" id="hint">Drag to rotate, flick to spin. Click the model, then scroll to zoom.</div>
+      <div class="pill glass" id="pill">
+        <button type="button" id="btn-guest" aria-pressed="false">Guest atoms</button>
+        <button type="button" id="btn-spin" aria-pressed="true">Auto-rotate</button>
+        <i aria-hidden="true"></i>
+        <button type="button" class="zoom" id="btn-out" aria-label="Zoom out">−</button>
+        <button type="button" class="zoom" id="btn-in" aria-label="Zoom in">+</button>
+      </div>
+      <div class="scalebar" id="scalebar" aria-hidden="true"><span id="scalelabel">5 Å</span><i id="scaleline" style="width:80px"></i></div>
+      <div class="nogl" id="nogl" hidden>This browser could not start WebGL, so the 3D model cannot be drawn. The numbers and method below do not depend on it.</div>
+    </div>
+    <div class="caption" aria-live="polite">
+      <div class="cap-text" id="cap-text">
+        <h2 id="cap-title">Unit cell</h2>
+        <p id="cap-body"></p>
+      </div>
+      <div class="cap-side">
+        <dl class="stats" id="cap-stats"></dl>
+        <ul class="key" aria-label="Colour key">
+          <li><b style="background:var(--apex)"></b>Apex atom, sp³, 4 bonds</li>
+          <li><b style="background:var(--atom-b)"></b>Cage atom next to an apex, sp²</li>
+          <li><b style="background:var(--atom-c)"></b>Cage atom far from any apex, sp²</li>
+          <li><b class="bar" style="background:var(--apex)"></b>Bond between cages, or an open bond</li>
+          <li><b style="background:var(--guest)"></b>Guest atom inside a cage (optional)</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="glance">
+      <div class="fig"><strong>1.14<span>g/cm³</span></strong><p>Density. A third of diamond's 3.52.</p></div>
+      <div class="fig"><strong>224</strong><p>Atoms in one cubic cell. Diamond has 8.</p></div>
+      <div class="fig"><strong>15.777<span>Å</span></strong><p>Cell edge, 4.4 times diamond's.</p></div>
+      <div class="fig"><strong>≈ 3<span>eV</span></strong><p>Expected band gap. Diamond's is 5.47.</p></div>
+    </div>
+    <p class="note">Calculated values. No sample exists to measure.</p>
+  </section>
+
+  <section>
+    <h2>Diamond against hyperdiamond.</h2>
+    <p class="lead">Diamond's column is measured. Hyperdiamond's is calculated, and its density and atom counts follow directly from the calculated cell.</p>
+    <div class="tablebox">
+      <table>
+        <thead><tr><th scope="col">Property</th><th scope="col">Diamond</th><th scope="col">C<sub>28</sub> hyperdiamond</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">Status</th><td>Mined and manufactured</td><td>Hypothetical. Proposed by Guo, Smalley and co-workers in 1992.</td></tr>
+          <tr><th scope="row">Unit on each lattice site</th><td>One carbon atom</td><td>One C<sub>28</sub> cage, 5.3 Å across</td></tr>
+          <tr><th scope="row">Space group</th><td class="v">Fd-3m (227)</td><td class="v">Fd-3m (227)</td></tr>
+          <tr><th scope="row">Cubic cell edge</th><td class="v">3.567 Å</td><td class="v">15.777 Å<small>DFT-LDA with relaxed cages, Zeger et al. 1995. An earlier rigid-cage estimate gave 16.4 Å.</small></td></tr>
+          <tr><th scope="row">Atoms per cubic cell</th><td class="v">8</td><td class="v">224<small>8 cages of 28</small></td></tr>
+          <tr><th scope="row">Bond lengths</th><td class="v">1.545 Å</td><td class="v">1.407, 1.479, 1.510 Å in the cage<br>1.539 Å between cages</td></tr>
+          <tr><th scope="row">Bonding</th><td>Every atom sp³</td><td>4 sp³ and 24 sp² atoms per cage, so 1 atom in 7 is diamond-like</td></tr>
+          <tr><th scope="row">Density</th><td class="v">3.52 g/cm³</td><td class="v">1.14 g/cm³<small>224 × 12.011 u in a 15.777 Å cube</small></td></tr>
+          <tr><th scope="row">Band gap</th><td class="v">5.47 eV, indirect<small>An insulator</small></td><td class="v">1.61 eV direct at Γ (LDA)<small>The smallest gap is indirect. LDA underestimates gaps, and the authors expect about 3 eV in a real crystal. Kaxiras et al. 1994.</small></td></tr>
+          <tr><th scope="row">Energy per atom</th><td class="v">0 (reference)</td><td class="v">+0.744 eV<small>Less stable than diamond. Zeger et al. 1995.</small></td></tr>
+          <tr><th scope="row">Stiffness (bulk modulus)</th><td class="v">443 GPa</td><td>Reported as roughly a tenth of diamond's in later tight-binding work. I could not confirm an exact figure.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <h2>What would be unusual about it.</h2>
+    <div class="finds">
+      <div class="find"><span class="tag calc">Calculated</span><h3>A third of diamond's density, and still one bonded network</h3><p>Solid C<sub>60</sub> is also light, but its cages are only held together by weak van der Waals attraction. In hyperdiamond every cage is chemically bonded to four neighbours, so the whole crystal is a single covalent framework.</p></div>
+      <div class="find"><span class="tag calc">Calculated</span><h3>A semiconductor where diamond is an insulator</h3><p>The calculated gap is 1.61 eV, and the real value is expected nearer 3 eV. Diamond's is 5.47 eV. A 3 eV gap corresponds to light of about 413 nm, at the violet edge of the visible range.</p></div>
+      <div class="find"><span class="tag meas">Measured for single cages</span><h3>Every cage is a container</h3><p>C<sub>28</sub> has been detected with a titanium, zirconium or uranium atom trapped inside. In a crystal that would give one dopant position per 28 carbons, placed by the lattice itself. Nobody has tested that in a solid.</p></div>
+      <div class="find"><span class="tag spec">Related calculation</span><h3>A superconductor candidate</h3><p>C<sub>28</sub> is more sharply curved than C<sub>60</sub>, which couples its electrons to vibrations more than twice as strongly in calculations. For a hydrogen-capped relative with sodium inside each cage, Romero and co-workers estimated a transition near 58 K, against 19 K measured for K<sub>3</sub>C<sub>60</sub>. That is a different solid, and nothing has been measured.</p></div>
+      <div class="find"><span class="tag calc">Calculated geometry</span><h3>Mostly empty space</h3><p>Switch to the crystal view and look along a channel. The open framework led Kaxiras and co-workers to suggest a disordered version as a storage medium.</p></div>
+      <div class="find wide"><span class="tag spec">What it would not be</span><h3>Harder than diamond</h3><p>Of the 352 bonds in a cubic cell only 16 join one cage to another, and the calculated stiffness is far below diamond's. It is also 0.744 eV per atom less stable than diamond, so it could only exist as a metastable material. That alone does not rule it out: C<sub>60</sub> sits roughly 0.4 eV per atom above graphite and is made in bulk.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>How you could do it.</h2>
+    <p class="lead">Nobody can make crystalline hyperdiamond today, in a school or a national lab. Every result about it comes from computing it, and that part is open to you with free software.</p>
+    <ol class="steps">
+      <li><h3>Build and inspect it <span>An afternoon</span></h3><p>Copy the structure file below into a text file named <code>hyperdiamond.cif</code> and open it in VESTA or Avogadro 2. Measure the four bond lengths and the 109.47° angle between cage centres, and check them against the table.</p></li>
+      <li><h3>Relax a single cage <span>A weekend</span></h3><p>Run the free quantum-chemistry program <code>xtb</code> on bare C<sub>28</sub> and on C<sub>28</sub>H<sub>4</sub>, where a hydrogen caps each apex. The literature says capping the four open bonds turns an unstable open-shell cage into a stable molecule. See whether your calculation agrees.</p></li>
+      <li><h3>Compute the crystal <span>A few weeks, a good EPQ</span></h3><p>Use Quantum ESPRESSO (free; on Windows it runs under WSL) on the 56-atom primitive cell. Calculate the energy at several cell sizes, fit the curve to get the lattice constant and bulk modulus, then plot the band structure. Your targets are 15.777 Å and a gap near 1.6 eV. Reproducing a published result independently is real research practice.</p></li>
+      <li><h3>What a laboratory would need <span>University facility</span></h3><p>A pulsed laser vaporising graphite into helium makes carbon clusters. A mass filter set to 336 u (28 × 12) picks out C<sub>28</sub>, and the beam is landed gently on a cold surface in ultra-high vacuum. Simulations by Canning, Galli and Kim in 1997 found the cages survive landing and link up, but into a disordered network. This needs a class 4 laser and vacuum equipment, so it is not a home or school experiment.</p></li>
+      <li><h3>The unsolved part <span>Open problem</span></h3><p>A crystal needs every cage in exactly the right orientation, and Kaxiras and co-workers argued that an amorphous solid is the more likely outcome. There is a second catch. The metal atom that makes C<sub>28</sub> survivable donates four electrons to the cage, which uses up the very open bonds the crystal relies on.</p></li>
+    </ol>
+    <details>
+      <summary>Structure file (CIF, 224 atoms)</summary>
+      <div class="cifbox">
+        <p>Generated from the same coordinates as the model. The true symmetry is Fd-3m, but the atoms are written out one by one so that any viewer opens it.</p>
+        <button type="button" class="btn" id="btn-copy">Copy CIF</button>
+        <pre id="cif" tabindex="0"></pre>
+      </div>
+    </details>
+  </section>
+
+  <section>
+    <h2>Sources.</h2>
+    <ol class="srcs">
+      <li><b>Guo, Diener, Chai, Alford, Haufler, McClure, Ohno, Weaver, Scuseria, Smalley.</b> Uranium stabilization of C28: a tetravalent fullerene. Science 257, 1661 (1992). The original proposal.</li>
+      <li><b>Bylander, Kleinman.</b> Calculated properties of polybenzene and hyperdiamond. <a href="https://doi.org/10.1103/PhysRevB.47.10967">Phys. Rev. B 47, 10967 (1993)</a>.</li>
+      <li><b>Kaxiras, Zeger, Antonelli, Juan.</b> Electronic properties of a cluster-based solid form of carbon: C28 hyperdiamond. <a href="https://doi.org/10.1103/PhysRevB.49.8446">Phys. Rev. B 49, 8446 (1994)</a>. Band gap, superatom picture, amorphous outlook. Read in full for this page.</li>
+      <li><b>Zeger, Juan, Kaxiras, Antonelli.</b> Theoretical study of cubic structures based on fullerene carbon clusters: C28C and (C28)2. <a href="https://arxiv.org/abs/cond-mat/9502051">Phys. Rev. B 52, 2125 (1995)</a>. Lattice constant, all bond lengths, energy. Read in full for this page.</li>
+      <li><b>Canning, Galli, Kim.</b> Carbon superatom thin films. <a href="https://doi.org/10.1103/PhysRevLett.78.4442">Phys. Rev. Lett. 78, 4442 (1997)</a>.</li>
+      <li><b>Romero, Kim, Martin.</b> Electron-phonon interactions in C28-derived molecular solids. <a href="https://arxiv.org/abs/cond-mat/0403003">Phys. Rev. B 70, 140504(R) (2004)</a>. Superconductivity estimate for Na@C28H4.</li>
+      <li><b>Seifert, Enyashin, Heine.</b> Hyperdiamond and hyperlonsdaleite: possible crystalline phases of fullerene C28. <a href="https://doi.org/10.1103/PhysRevB.72.012102">Phys. Rev. B 72, 012102 (2005)</a>.</li>
+      <li><b>Dunk, Kaiser, Mulet-Gas, Rodríguez-Fortea, Poblet and co-workers.</b> The smallest stable fullerene, M@C28 (M = Ti, Zr, U). <a href="https://doi.org/10.1021/ja302398h">J. Am. Chem. Soc. 134, 9380 (2012)</a>.</li>
+    </ol>
+  </section>
+
+  <footer>Geometry check. The cage was solved from the four relaxed bond lengths and the 2.57 Å non-bonded contact in Zeger et al., with exact T<sub>d</sub> symmetry. It has 12 pentagons, 4 hexagons and 42 bonds. In the crystal every apex atom has 4 neighbours and every other atom 3. The model's cage-to-cage contact comes out at 3.13 Å against the paper's 3.15 Å.</footer>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+(function(){
+'use strict';
+/* ---------- structure data (Å). Cage solved from Zeger et al., PRB 52, 2125 (1995), Table 1, relaxed. ---------- */
+var A0=15.777, AD=3.567, S3=1/Math.sqrt(3);
+var V=[[S3,S3,S3],[S3,-S3,-S3],[-S3,S3,-S3],[-S3,-S3,S3]];
+var CAGE=[[1.5279,1.5279,1.5279],[1.5279,-1.5279,-1.5279],[-1.5279,1.5279,-1.5279],[-1.5279,-1.5279,1.5279],[0.0425,1.7201,1.7201],[1.7201,0.0425,1.7201],[1.7201,1.7201,0.0425],[0.0425,-1.7201,-1.7201],[1.7201,-1.7201,-0.0425],[1.7201,-0.0425,-1.7201],[-1.7201,0.0425,-1.7201],[-1.7201,1.7201,-0.0425],[-0.0425,1.7201,-1.7201],[-1.7201,-1.7201,0.0425],[-1.7201,-0.0425,1.7201],[-0.0425,-1.7201,1.7201],[2.1962,-0.5229,0.5229],[2.1962,0.5229,-0.5229],[-0.5229,2.1962,0.5229],[0.5229,2.1962,-0.5229],[-0.5229,0.5229,2.1962],[0.5229,-0.5229,2.1962],[-0.5229,-0.5229,-2.1962],[0.5229,0.5229,-2.1962],[-0.5229,-2.1962,-0.5229],[0.5229,-2.1962,0.5229],[-2.1962,-0.5229,-0.5229],[-2.1962,0.5229,0.5229]];
+var TYPES='AAAABBBBBBBBBBBBCCCCCCCCCCCC';
+var BONDS=[[0,4],[0,5],[0,6],[1,7],[1,8],[1,9],[2,10],[2,11],[2,12],[3,13],[3,14],[3,15],[4,18],[4,20],[5,16],[5,21],[6,17],[6,19],[7,22],[7,24],[8,16],[8,25],[9,17],[9,23],[10,22],[10,26],[11,18],[11,27],[12,19],[12,23],[13,24],[13,26],[14,20],[14,27],[15,21],[15,25],[16,17],[18,19],[20,21],[22,23],[24,25],[26,27]];
+var PENT=[[0,5,16,17,6],[0,4,18,19,6],[0,4,20,21,5],[1,8,16,17,9],[1,7,22,23,9],[1,7,24,25,8],[2,11,18,19,12],[2,10,22,23,12],[2,10,26,27,11],[3,14,20,21,15],[3,13,24,25,15],[3,13,26,27,14]];
+var HEX=[[7,22,10,26,13,24],[4,18,11,27,14,20],[5,16,8,25,15,21],[6,17,9,23,12,19]];
+var FCC=[[0,0,0],[0,.5,.5],[.5,0,.5],[.5,.5,0]];
+
+/* ---------- CIF (origin on a cage centre) ---------- */
+function makeCIF(){
+  var L=['# C28 hyperdiamond, conventional cubic cell (hypothetical structure)','# True symmetry Fd-3m (No. 227); atoms listed explicitly in P1.','# Cell and bond lengths: Zeger, Juan, Kaxiras, Antonelli, Phys. Rev. B 52, 2125 (1995), relaxed.','data_C28_hyperdiamond',"_chemical_name_common 'C28 hyperdiamond (hypothetical)'",'_cell_length_a 15.777','_cell_length_b 15.777','_cell_length_c 15.777','_cell_angle_alpha 90','_cell_angle_beta 90','_cell_angle_gamma 90',"_symmetry_space_group_name_H-M 'P 1'",'_symmetry_Int_Tables_number 1','loop_','_symmetry_equiv_pos_as_xyz'," 'x, y, z'",'loop_','_atom_site_label','_atom_site_type_symbol','_atom_site_fract_x','_atom_site_fract_y','_atom_site_fract_z'];
+  var n=0;
+  function fr(x){x=x/A0;x=x-Math.floor(x);if(x>0.999995)x=0;return x.toFixed(5);}
+  for(var s=0;s<2;s++)for(var f=0;f<4;f++)for(var i=0;i<28;i++){
+    var sg=s?-1:1,o=s?0.25:0;n++;
+    L.push('C'+n+' C '+fr((FCC[f][0]+o)*A0+sg*CAGE[i][0])+' '+fr((FCC[f][1]+o)*A0+sg*CAGE[i][1])+' '+fr((FCC[f][2]+o)*A0+sg*CAGE[i][2]));
+  }
+  return L.join('\n')+'\n';
+}
+var cifEl=document.getElementById('cif');
+cifEl.textContent=makeCIF();
+var copyBtn=document.getElementById('btn-copy');
+copyBtn.addEventListener('click',function(){
+  function sel(){var r=document.createRange();r.selectNodeContents(cifEl);var s=window.getSelection();s.removeAllRanges();s.addRange(r);copyBtn.textContent='Selected. Press Ctrl+C';}
+  try{navigator.clipboard.writeText(cifEl.textContent).then(function(){copyBtn.textContent='Copied';},sel);}catch(e){sel();}
+  setTimeout(function(){copyBtn.textContent='Copy CIF';},2600);
+});
+
+/* ---------- springs: damping ratio + response, integrated from the live value so every motion can be redirected mid-flight ---------- */
+var mqReduce=window.matchMedia?window.matchMedia('(prefers-reduced-motion: reduce)'):null;
+var reduce=!!(mqReduce&&mqReduce.matches);
+function Spring(x,zeta,resp,eps){this.x=x;this.v=0;this.t=x;this.k=Math.pow(2*Math.PI/resp,2);this.c=4*Math.PI*zeta/resp;this.eps=eps||0.0005;this.rest=true;}
+Spring.prototype.set=function(t){if(t!==this.t||this.x!==t){this.t=t;this.rest=false;}};
+Spring.prototype.jump=function(x){this.x=this.t=x;this.v=0;this.rest=true;};
+Spring.prototype.step=function(dt){
+  if(this.rest)return false;
+  if(reduce){this.x=this.t;this.v=0;this.rest=true;return true;}
+  var n=Math.max(1,Math.ceil(dt/0.006)),h=dt/n,i;
+  for(i=0;i<n;i++){this.v+=(-this.k*(this.x-this.t)-this.c*this.v)*h;this.x+=this.v*h;}
+  if(Math.abs(this.x-this.t)<this.eps&&Math.abs(this.v)<this.eps*20){this.x=this.t;this.v=0;this.rest=true;}
+  return true;
+};
+function rubberband(over,dim){return (over*dim*0.55)/(dim+0.55*Math.abs(over));}
+
+/* ---------- captions and segmented control ---------- */
+var CAPS={
+  1:{t:'One cage',b:'C<sub>28</sub> is the smallest fullerene seen in quantity when graphite is vaporised by a laser. It has 12 pentagons and 4 hexagons and the same tetrahedral symmetry as methane. At four corners three pentagons meet. Each of those atoms has one electron left over, pointing straight out. Four open bonds in tetrahedral directions is exactly what a single carbon atom offers in diamond, so the cage behaves like one giant carbon atom.'},
+  2:{t:'Four bonds',b:'Give each open bond a partner. A neighbouring cage, turned upside down, docks apex to apex with a 1.539 Å single bond, almost the same as the 1.545 Å bond in diamond. The cage centres sit 6.83 Å apart, and the four neighbours point to the corners of a tetrahedron at 109.47°.'},
+  3:{t:'Unit cell',b:'Repeat that pattern and you get diamond\'s lattice with a cage on every site. The cubic cell is 15.777 Å along each edge and holds 8 cages, which is 224 atoms. Diamond\'s own cell is 3.567 Å with 8 atoms. Short stubs mark bonds that continue into the next cell. Counting those, each cell has 16 cage-to-cage bonds.'},
+  4:{t:'Crystal',b:'Eight unit cells. Rotate until you look straight down a channel: most of the volume is empty. That is why the density is 1.14 g/cm³, about a third of diamond\'s 3.52 g/cm³, even though every cage is covalently bonded to four others.'},
+  5:{t:'Diamond, same box',b:'Ordinary diamond drawn at the same scale inside the same 15.777 Å cube. On average that cube holds 692 diamond atoms where hyperdiamond has 224, a factor of 3.09. Every atom here is sp³ with four bonds.'}
+};
+var capText=document.getElementById('cap-text'),capT=document.getElementById('cap-title'),capB=document.getElementById('cap-body'),capS=document.getElementById('cap-stats');
+function fmt(n){return n.toLocaleString('en-GB');}
+function setCaption(n,stats,quiet){
+  capT.textContent=CAPS[n].t;capB.innerHTML=CAPS[n].b;
+  capS.innerHTML=stats.map(function(s){return '<dt>'+s[0]+'</dt><dd>'+s[1]+'</dd>';}).join('');
+  if(!quiet&&capText.animate){
+    capText.animate(reduce?[{opacity:0},{opacity:1}]:[{opacity:0,transform:'translateY(8px)'},{opacity:1,transform:'none'}],{duration:reduce?200:340,easing:'cubic-bezier(.2,.8,.2,1)'});
+  }
+}
+var tabs=[].slice.call(document.querySelectorAll('.seg button')),thumbEl=document.getElementById('thumb');
+var thumb=new Spring(2,1,0.3,0.001),stage=3,G=null;
+function placeThumb(){thumbEl.style.transform='translateX('+(thumb.x*100).toFixed(3)+'%)';}
+placeThumb();
+var STATIC_STATS={1:[28,1,42,0],2:[140,5,210,4],3:[224,8,336,7],4:[1792,64,2688,86]};
+function statsFor(n){
+  if(n===5){var d=G?G.diamondCounts():[689,1156];return [['Atoms drawn',fmt(d[0])],['Bonds drawn',fmt(d[1])],['Bond length','1.545 Å'],['Density','3.52 g/cm³']];}
+  var s=G?G.counts(n):STATIC_STATS[n];
+  return [['Atoms drawn',fmt(s[0])],['Cages',fmt(s[1])],['Bonds inside cages',fmt(s[2])],['Cage-to-cage bonds drawn',fmt(s[3])]];
+}
+function setStage(n,instant){
+  stage=n;
+  tabs.forEach(function(b){b.setAttribute('aria-pressed',+b.dataset.stage===n?'true':'false');});
+  if(instant)thumb.jump(n-1);else thumb.set(n-1);
+  placeThumb();
+  if(G)G.setStage(n,instant);
+  setCaption(n,statsFor(n),instant);
+}
+tabs.forEach(function(b){b.addEventListener('click',function(){setStage(+b.dataset.stage,false);});});
+
+/* ---------- three.js ---------- */
+var stageEl=document.getElementById('stage'),canvas=document.getElementById('gl');
+var renderer=null;
+try{ if(window.THREE) renderer=new THREE.WebGLRenderer({canvas:canvas,antialias:true}); }catch(e){renderer=null;}
+if(!renderer){
+  document.getElementById('nogl').hidden=false;canvas.hidden=true;
+  ['hint','scalebar','pill'].forEach(function(id){document.getElementById(id).hidden=true;});
+  setStage(3,true);
+  (function loop(){var last=performance.now();function f(now){var dt=Math.min(0.05,(now-last)/1000);last=now;if(thumb.step(dt))placeThumb();requestAnimationFrame(f);}requestAnimationFrame(f);})();
+  return;
+}
+G=(function(){
+  function css(n){return getComputedStyle(document.documentElement).getPropertyValue(n).trim();}
+  var RA=0.34,RB=0.105,RL=0.14,RS=0.085,STUB=0.77,NC=64;
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,2));
+  var scene=new THREE.Scene(),FOV=30,camera=new THREE.PerspectiveCamera(FOV,16/10,0.5,4000);
+  var hemi=new THREE.HemisphereLight(0xffffff,0x1c2231,0.8);scene.add(hemi);
+  var sun=new THREE.DirectionalLight(0xffffff,0.8);sun.position.set(1,1.3,2);scene.add(sun);
+  scene.fog=new THREE.Fog(0x000000,10,100);
+  var pivot=new THREE.Group(),world=new THREE.Group();scene.add(pivot);pivot.add(world);
+  pivot.quaternion.setFromEuler(new THREE.Euler(0.36,-0.52,0.04));
+  var YAX=new THREE.Vector3(0,1,0),XAX=new THREE.Vector3(1,0,0),tmpQ=new THREE.Quaternion();
+  function cylMatrix(a,b,r){
+    var d=new THREE.Vector3(b[0]-a[0],b[1]-a[1],b[2]-a[2]),len=d.length();
+    var q=new THREE.Quaternion().setFromUnitVectors(YAX,d.normalize());
+    return new Float32Array(new THREE.Matrix4().compose(new THREE.Vector3((a[0]+b[0])/2,(a[1]+b[1])/2,(a[2]+b[2])/2),q,new THREE.Vector3(r,len,r)).elements);
+  }
+
+  /* One continuous lattice. Stages reveal more of it around the same central cage, so cages enter and leave along the same path. */
+  var cages=[];
+  [-1,0].forEach(function(i){[-1,0].forEach(function(j){[-1,0].forEach(function(k){
+    var home=(i===0&&j===0&&k===0);
+    function add(f,sgn,level){
+      var c=[((f[0]-3)/8+i)*A0,((f[1]-3)/8+j)*A0,((f[2]-3)/8+k)*A0],d=Math.hypot(c[0],c[1],c[2]);
+      cages.push({c:c,sgn:sgn,level:level,d:d,dir:d>1e-6?[c[0]/d,c[1]/d,c[2]/d]:[0,0,0],p:new Spring(0,1,0.5),pending:null,due:0,dirty:true,s:0,x:c[0],y:c[1],z:c[2]});
+    }
+    [[3,3,3],[3,7,7],[7,3,7],[7,7,3]].forEach(function(f,n){add(f,1,home?(n===0?1:3):4);});
+    [[5,5,5],[5,1,1],[1,5,1],[1,1,5]].forEach(function(f){add(f,-1,home?2:4);});
+  });});});
+  cages.sort(function(a,b){return a.level-b.level||a.d-b.d;});
+  var LOCAL={};
+  [1,-1].forEach(function(sg){
+    var P=CAGE.map(function(x){return [sg*x[0],sg*x[1],sg*x[2]];});
+    LOCAL[sg]={P:P,bonds:BONDS.map(function(e){return cylMatrix(P[e[0]],P[e[1]],RB);}),
+      stubs:[0,1,2,3].map(function(k){var v=V[k];return cylMatrix(P[k],[P[k][0]+sg*v[0]*STUB,P[k][1]+sg*v[1]*STUB,P[k][2]+sg*v[2]*STUB],RS);})};
+  });
+  var apexes=[],links=[];
+  cages.forEach(function(cg,ci){for(var k=0;k<4;k++)apexes.push({ci:ci,k:k,p:[cg.c[0]+cg.sgn*CAGE[k][0],cg.c[1]+cg.sgn*CAGE[k][1],cg.c[2]+cg.sgn*CAGE[k][2]],partner:-1});});
+  (function(){for(var i=0;i<apexes.length;i++)for(var j=i+1;j<apexes.length;j++){
+    var a=apexes[i],b=apexes[j];if(a.ci===b.ci)continue;
+    var dx=a.p[0]-b.p[0],dy=a.p[1]-b.p[1],dz=a.p[2]-b.p[2];
+    if(dx*dx+dy*dy+dz*dz<2.56){links.push({a:a.ci,b:b.ci,M:cylMatrix(a.p,b.p,RL)});a.partner=b.ci;b.partner=a.ci;}
+  }})();
+  var NL=links.length;
+
+  var sphere=new THREE.SphereGeometry(1,18,12);
+  var atomMesh=new THREE.InstancedMesh(sphere,new THREE.MeshStandardMaterial({roughness:0.42,metalness:0.06}),NC*28);
+  var bondMesh=new THREE.InstancedMesh(new THREE.CylinderGeometry(1,1,1,8,1,true),new THREE.MeshStandardMaterial({roughness:0.55,metalness:0.04}),NC*42);
+  var linkMesh=new THREE.InstancedMesh(new THREE.CylinderGeometry(1,1,1,10,1,false),new THREE.MeshStandardMaterial({roughness:0.45,metalness:0.06}),NL+NC*4);
+  var guestMesh=new THREE.InstancedMesh(sphere,new THREE.MeshStandardMaterial({roughness:0.3,metalness:0.2}),NC);
+  /* Colour buffers are sized from .count when first written, so fill them before any count changes. */
+  var colTmp=new THREE.Color(1,1,1),ii;
+  for(ii=0;ii<NC*28;ii++)atomMesh.setColorAt(ii,colTmp);
+  [atomMesh,bondMesh,linkMesh,guestMesh].forEach(function(m){m.frustumCulled=false;world.add(m);});
+
+  /* ordinary diamond in the same cube */
+  var BC=[A0/8,A0/8,A0/8],HB=A0/2,dAtoms=[],dBonds=[];
+  (function(){
+    var off=AD/8,B8=[];
+    FCC.forEach(function(f){B8.push(f);B8.push([f[0]+.25,f[1]+.25,f[2]+.25]);});
+    /* offsets give 18 x 18 x 17 atomic planes, the closest whole-plane count to the 692-atom average */
+    for(var a=-4;a<=3;a++)for(var b=-4;b<=3;b++)for(var c=-4;c<=3;c++)B8.forEach(function(f){
+      var p=[(a+f[0])*AD+off,(b+f[1])*AD+off,(c+f[2])*AD];
+      if(p[0]>=-HB&&p[0]<HB&&p[1]>=-HB&&p[1]<HB&&p[2]>=-HB&&p[2]<HB)dAtoms.push({p:[p[0]+BC[0],p[1]+BC[1],p[2]+BC[2]],phi:Math.hypot(p[0],p[1],p[2])/(HB*Math.sqrt(3)),u:0});
+    });
+    for(var i=0;i<dAtoms.length;i++)for(var j=i+1;j<dAtoms.length;j++){
+      var dx=dAtoms[i].p[0]-dAtoms[j].p[0],dy=dAtoms[i].p[1]-dAtoms[j].p[1],dz=dAtoms[i].p[2]-dAtoms[j].p[2];
+      if(dx*dx+dy*dy+dz*dz<2.56)dBonds.push({a:i,b:j,M:cylMatrix(dAtoms[i].p,dAtoms[j].p,RB)});
+    }
+  })();
+  var dAtomMesh=new THREE.InstancedMesh(sphere,new THREE.MeshStandardMaterial({roughness:0.42,metalness:0.06}),dAtoms.length);
+  var dBondMesh=new THREE.InstancedMesh(new THREE.CylinderGeometry(1,1,1,8,1,true),new THREE.MeshStandardMaterial({roughness:0.55,metalness:0.04}),dBonds.length);
+  [dAtomMesh,dBondMesh].forEach(function(m){m.frustumCulled=false;m.visible=false;world.add(m);});
+  (function(){var A=dAtomMesh.instanceMatrix.array;dAtoms.forEach(function(a,i){var o=i*16;A[o+12]=a.p[0];A[o+13]=a.p[1];A[o+14]=a.p[2];A[o+15]=1;});})();
+
+  var faceMesh=new THREE.Mesh(new THREE.BufferGeometry(),new THREE.MeshBasicMaterial({vertexColors:true,transparent:true,opacity:0,side:THREE.DoubleSide,depthWrite:false}));
+  faceMesh.visible=false;world.add(faceMesh);
+  function lineGeo(min,n){
+    var pts=[],max=min+n*A0,i,j;
+    for(i=0;i<=n;i++)for(j=0;j<=n;j++){var u=min+i*A0,w=min+j*A0;pts.push(min,u,w,max,u,w, u,min,w,u,max,w, u,w,min,u,w,max);}
+    var g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.Float32BufferAttribute(pts,3));return g;
+  }
+  var box1=new THREE.LineSegments(lineGeo(-3*A0/8,1),new THREE.LineBasicMaterial({transparent:true,opacity:0}));
+  var box2=new THREE.LineSegments(lineGeo(-11*A0/8,2),new THREE.LineBasicMaterial({transparent:true,opacity:0}));
+  box1.visible=box2.visible=false;world.add(box1);world.add(box2);
+
+  /* ---------- per-frame writers (direct to the instance buffers) ---------- */
+  var guest=new Spring(0,1,0.35),dq=new Spring(0,1,0.7),dqPending=null,dqDue=0;
+  var faceO=new Spring(0,1,0.4),box1O=new Spring(0,1,0.5),box2O=new Spring(0,1,0.5);
+  function writeGuest(ci){
+    var cg=cages[ci],A=guestMesh.instanceMatrix.array,o=ci*16,r=0.85*cg.s*Math.max(0,guest.x);
+    A[o]=A[o+5]=A[o+10]=r;A[o+12]=cg.x;A[o+13]=cg.y;A[o+14]=cg.z;A[o+15]=1;
+  }
+  function writeCage(ci){
+    var cg=cages[ci],p=cg.p.x,u=Math.min(1,Math.max(0,p*1.8)),s=u*(2-u),off=(1-p)*(0.9*cg.d+7);
+    var cx=cg.c[0]+cg.dir[0]*off,cy=cg.c[1]+cg.dir[1]*off,cz=cg.c[2]+cg.dir[2]*off;
+    cg.s=s;cg.x=cx;cg.y=cy;cg.z=cz;
+    var L=LOCAL[cg.sgn],A=atomMesh.instanceMatrix.array,o=ci*448,i,e,r=RA*s,P=L.P;
+    for(i=0;i<28;i++,o+=16){A[o]=A[o+5]=A[o+10]=r;A[o+12]=cx+P[i][0]*s;A[o+13]=cy+P[i][1]*s;A[o+14]=cz+P[i][2]*s;A[o+15]=1;}
+    var B=bondMesh.instanceMatrix.array;o=ci*672;
+    for(i=0;i<42;i++,o+=16){var m=L.bonds[i];for(e=0;e<12;e++)B[o+e]=m[e]*s;B[o+12]=cx+m[12]*s;B[o+13]=cy+m[13]*s;B[o+14]=cz+m[14]*s;B[o+15]=1;}
+    writeGuest(ci);
+  }
+  function sm(x){x=Math.min(1,Math.max(0,(x-0.9)/0.1));return x*x*(3-2*x);}
+  function writeLinks(){
+    var A=linkMesh.instanceMatrix.array,n,o,e,m,g;
+    for(n=0;n<NL;n++){
+      var lk=links[n];g=sm(Math.min(cages[lk.a].p.x,cages[lk.b].p.x));m=lk.M;o=n*16;
+      for(e=0;e<16;e++)A[o+e]=m[e];
+      A[o]*=g;A[o+1]*=g;A[o+2]*=g;A[o+8]*=g;A[o+9]*=g;A[o+10]*=g;
+    }
+    for(n=0;n<apexes.length;n++){
+      var ap=apexes[n],cg=cages[ap.ci],s=cg.s,f=s*(1-(ap.partner>=0?sm(Math.min(cg.p.x,cages[ap.partner].p.x)):0));
+      m=LOCAL[cg.sgn].stubs[ap.k];o=(NL+n)*16;
+      A[o]=m[0]*f;A[o+1]=m[1]*f;A[o+2]=m[2]*f;A[o+4]=m[4]*s;A[o+5]=m[5]*s;A[o+6]=m[6]*s;A[o+8]=m[8]*f;A[o+9]=m[9]*f;A[o+10]=m[10]*f;
+      A[o+12]=cg.x+m[12]*s;A[o+13]=cg.y+m[13]*s;A[o+14]=cg.z+m[14]*s;A[o+15]=1;
+    }
+    linkMesh.instanceMatrix.needsUpdate=true;
+  }
+  function writeDiamond(){
+    var q=Math.min(1,Math.max(0,dq.x)),A=dAtomMesh.instanceMatrix.array,i,o,e;
+    for(i=0;i<dAtoms.length;i++){var a=dAtoms[i],u=Math.min(1,Math.max(0,(q-0.5*a.phi)/0.5));a.u=u*(2-u);o=i*16;A[o]=A[o+5]=A[o+10]=RA*a.u;}
+    var B=dBondMesh.instanceMatrix.array;
+    for(i=0;i<dBonds.length;i++){var b=dBonds[i],f=Math.min(dAtoms[b.a].u,dAtoms[b.b].u),m=b.M;o=i*16;for(e=0;e<16;e++)B[o+e]=m[e];B[o]*=f;B[o+1]*=f;B[o+2]*=f;B[o+8]*=f;B[o+9]*=f;B[o+10]*=f;}
+    dAtomMesh.instanceMatrix.needsUpdate=true;dBondMesh.instanceMatrix.needsUpdate=true;
+    dAtomMesh.visible=dBondMesh.visible=q>0.0005;
+  }
+
+  /* ---------- theme ---------- */
+  var dirty=true;
+  function theme(){
+    var cA=new THREE.Color(css('--apex')),cB=new THREE.Color(css('--atom-b')),cC=new THREE.Color(css('--atom-c')),cBond=new THREE.Color(css('--bond')),st=new THREE.Color(css('--stage'));
+    for(var i=0;i<NC*28;i++){var t=TYPES.charAt(i%28);atomMesh.setColorAt(i,t==='A'?cA:(t==='B'?cB:cC));}
+    atomMesh.instanceColor.needsUpdate=true;
+    bondMesh.material.color.copy(cBond);dBondMesh.material.color.copy(cBond);dAtomMesh.material.color.copy(cC);
+    linkMesh.material.color.copy(cA);guestMesh.material.color.set(css('--guest'));
+    box1.material.color.set(css('--boxline'));box2.material.color.set(css('--boxline'));
+    hemi.groundColor.set(css('--stage-ground'));
+    renderer.setClearColor(st,1);scene.fog.color.copy(st);
+    var fp=new THREE.Color(css('--face-p')),fh=new THREE.Color(css('--face-h')),pos=[],col=[];
+    function ring(r,c){
+      var cx=0,cy=0,cz=0,n=r.length,k;
+      for(k=0;k<n;k++){cx+=CAGE[r[k]][0];cy+=CAGE[r[k]][1];cz+=CAGE[r[k]][2];}
+      cx/=n;cy/=n;cz/=n;
+      for(k=0;k<n;k++){var p=CAGE[r[k]],q=CAGE[r[(k+1)%n]];pos.push(cx,cy,cz,p[0],p[1],p[2],q[0],q[1],q[2]);col.push(c.r,c.g,c.b,c.r,c.g,c.b,c.r,c.g,c.b);}
+    }
+    PENT.forEach(function(r){ring(r,fp);});HEX.forEach(function(r){ring(r,fh);});
+    var gm=new THREE.BufferGeometry();
+    gm.setAttribute('position',new THREE.Float32BufferAttribute(pos,3));gm.setAttribute('color',new THREE.Float32BufferAttribute(col,3));
+    faceMesh.geometry.dispose();faceMesh.geometry=gm;
+    dirty=true;
+  }
+
+  /* ---------- camera: target, framing radius and zoom are all springs ---------- */
+  var CENTRE={1:[0,0,0],2:[0,0,0],3:BC,4:[-3*A0/8,-3*A0/8,-3*A0/8],5:BC};
+  var RAD={1:4.4,2:A0*Math.sqrt(3)/4+4.4,3:HB*Math.sqrt(3)+0.9,4:A0*Math.sqrt(3)+0.9,5:HB*Math.sqrt(3)+0.9};
+  var tx=new Spring(BC[0],1,0.6,0.002),ty=new Spring(BC[1],1,0.6,0.002),tz=new Spring(BC[2],1,0.6,0.002),rad=new Spring(RAD[3],1,0.6,0.002);
+  var ZMIN=Math.log(0.5),ZMAX=Math.log(2.4),zoom=new Spring(0,1,0.35,0.0005),W=16,H=10,lastBar='';
+  function clampZ(z){return Math.min(ZMAX,Math.max(ZMIN,z));}
+  function bandZ(z){ /* soft limits: resist past the edge instead of stopping dead */
+    if(z>ZMAX)return ZMAX+rubberband(z-ZMAX,0.6);if(z<ZMIN)return ZMIN+rubberband(z-ZMIN,0.6);return z;
+  }
+  function halfAngle(){var v=FOV*Math.PI/360;return Math.min(v,Math.atan(Math.tan(v)*camera.aspect));}
+  function applyCamera(){
+    var R=rad.x,dist=R/Math.sin(halfAngle())*1.08*Math.exp(bandZ(zoom.x));
+    world.position.set(-tx.x,-ty.x,-tz.x);
+    camera.position.set(0,0,dist);camera.near=Math.max(0.5,dist-R*3.4);camera.far=dist+R*3.4;camera.updateProjectionMatrix();
+    scene.fog.near=dist-R*0.35;scene.fog.far=dist+R*2.2;
+    var px=(H/2)/(dist*Math.tan(FOV*Math.PI/360)),opts=[1,2,5,10,20,50],L=opts[0],i;
+    for(i=0;i<opts.length;i++){if(opts[i]*px<=120)L=opts[i];}
+    var key=L+'|'+Math.round(L*px);
+    if(key!==lastBar){lastBar=key;document.getElementById('scaleline').style.width=Math.max(8,Math.round(L*px))+'px';document.getElementById('scalelabel').textContent=L+' Å at centre';}
+  }
+  function resize(){
+    W=stageEl.clientWidth;H=stageEl.clientHeight;if(!W||!H)return;
+    renderer.setSize(W,H,false);camera.aspect=W/H;applyCamera();dirty=true;
+  }
+
+  /* ---------- stage targets with a distance-ordered stagger; leaving runs the entry order backwards ---------- */
+  var cur=3;
+  function schedule(list,reverse,base,now){
+    if(!list.length)return;
+    var dmin=Infinity,dmax=0;list.forEach(function(c){dmin=Math.min(dmin,c.d);dmax=Math.max(dmax,c.d);});
+    var spread=list.length<=4?140:(list.length<=8?300:620);
+    list.forEach(function(c){var u=dmax>dmin?(c.d-dmin)/(dmax-dmin):0;if(reverse)u=1-u;c.pending=c.want;c.due=now+base+u*spread;});
+  }
+  function setStage(n,instant){
+    var now=performance.now(),wasDiamond=(dqPending!==null?dqPending:dq.t)>0,enter=[],leave=[];
+    cur=n;
+    cages.forEach(function(c){
+      c.want=(n<=4&&c.level<=n)?1:0;
+      var have=c.pending!==null?c.pending:c.p.t;
+      if(instant){c.p.jump(c.want);c.pending=null;c.dirty=true;}
+      else if(c.want!==have){(c.want?enter:leave).push(c);}
+    });
+    if(!instant){schedule(enter,false,wasDiamond?220:0,now);schedule(leave,true,0,now);}
+    var dWant=n===5?1:0;
+    if(instant){dq.jump(dWant);dqPending=null;writeDiamond();}
+    else{dqPending=dWant;dqDue=now+(dWant&&leave.length?240:0);}
+    var c3=CENTRE[n];
+    if(instant){tx.jump(c3[0]);ty.jump(c3[1]);tz.jump(c3[2]);rad.jump(RAD[n]);zoom.jump(0);faceO.jump(n===1?0.24:0);box1O.jump(n===3||n===5?1:0);box2O.jump(n===4?1:0);faceO.rest=box1O.rest=box2O.rest=false; /* so the next frame applies them */}
+    else{tx.set(c3[0]);ty.set(c3[1]);tz.set(c3[2]);rad.set(RAD[n]);zoom.set(0);faceO.set(n===1?0.24:0);box1O.set(n===3||n===5?1:0);box2O.set(n===4?1:0);}
+    if(reduce&&!instant&&canvas.animate)canvas.animate([{opacity:0.2},{opacity:1}],{duration:220,easing:'ease-out'});
+    camDirty=true;dirty=true;
+  }
+  function counts(n){
+    var nc=0,nl=0;cages.forEach(function(c){if(c.level<=n)nc++;});
+    links.forEach(function(l){if(cages[l.a].level<=n&&cages[l.b].level<=n)nl++;});
+    return [nc*28,nc,nc*42,nl];
+  }
+
+  /* ---------- rotation: 1:1 while held, then the release velocity carries on and decays ---------- */
+  var K=0.008,omegaY=0,omegaX=0,spinning=!reduce,SPIN=0.14,drag=null,hist=[],pointers={},pinch=null,camDirty=true,wheelTimer=0;
+  function rotate(yaw,pitch){
+    tmpQ.setFromAxisAngle(YAX,yaw);pivot.quaternion.premultiply(tmpQ);
+    tmpQ.setFromAxisAngle(XAX,pitch);pivot.quaternion.premultiply(tmpQ);dirty=true;
+  }
+  var hintEl=document.getElementById('hint');
+  function touched(){hintEl.classList.add('gone');}
+  function pinchDist(){var k=Object.keys(pointers);if(k.length<2)return 0;var a=pointers[k[0]],b=pointers[k[1]];return Math.hypot(a.x-b.x,a.y-b.y);}
+  canvas.addEventListener('pointerdown',function(e){
+    pointers[e.pointerId]={x:e.clientX,y:e.clientY};
+    try{canvas.setPointerCapture(e.pointerId);}catch(err){}
+    touched();
+    if(Object.keys(pointers).length===2){pinch={d0:pinchDist(),z0:zoom.x};drag=null;omegaX=omegaY=0;return;}
+    drag={id:e.pointerId,x:e.clientX,y:e.clientY};omegaX=omegaY=0; /* grabbing stops any spin at once */
+    hist=[{t:e.timeStamp,x:e.clientX,y:e.clientY}];
+  });
+  canvas.addEventListener('pointermove',function(e){
+    if(pointers[e.pointerId]){pointers[e.pointerId].x=e.clientX;pointers[e.pointerId].y=e.clientY;}
+    if(pinch){var d=pinchDist();if(d>0&&pinch.d0>0){var z=pinch.z0+Math.log(pinch.d0/d);zoom.x=zoom.t=Math.min(ZMAX+1.2,Math.max(ZMIN-1.2,z));zoom.v=0;zoom.rest=true;camDirty=true;}return;}
+    if(!drag||e.pointerId!==drag.id)return;
+    rotate((e.clientX-drag.x)*K,(e.clientY-drag.y)*K);drag.x=e.clientX;drag.y=e.clientY;
+    hist.push({t:e.timeStamp,x:e.clientX,y:e.clientY});
+    while(hist.length>2&&e.timeStamp-hist[0].t>110)hist.shift();
+  });
+  function release(e){
+    delete pointers[e.pointerId];
+    if(pinch){if(Object.keys(pointers).length<2){pinch=null;zoom.set(clampZ(zoom.x));camDirty=true;}return;}
+    if(!drag||e.pointerId!==drag.id)return;
+    var a=hist[0],b=hist[hist.length-1],span=b.t-a.t;
+    if(!reduce&&e.type==='pointerup'&&span>12&&e.timeStamp-b.t<70){ /* hand the pointer's velocity to the spin */
+      omegaY=Math.max(-14,Math.min(14,(b.x-a.x)/span*1000*K));omegaX=Math.max(-14,Math.min(14,(b.y-a.y)/span*1000*K));
+    }
+    drag=null;dirty=true;
+  }
+  canvas.addEventListener('pointerup',release);canvas.addEventListener('pointercancel',release);
+  canvas.addEventListener('wheel',function(e){
+    if(!(e.ctrlKey||document.activeElement===canvas))return;
+    e.preventDefault();touched();
+    var dz=e.deltaY*(e.deltaMode===1?0.05:(e.ctrlKey?0.012:0.0018));
+    zoom.k=Math.pow(2*Math.PI/0.2,2);zoom.c=4*Math.PI/0.2;
+    zoom.set(Math.min(ZMAX+1,Math.max(ZMIN-1,zoom.t+dz)));
+    clearTimeout(wheelTimer);wheelTimer=setTimeout(function(){zoom.k=Math.pow(2*Math.PI/0.35,2);zoom.c=4*Math.PI/0.35;zoom.set(clampZ(zoom.t));},170);
+  },{passive:false});
+  canvas.addEventListener('keydown',function(e){
+    var k=e.key,used=true;
+    if(k==='ArrowLeft')rotate(-0.12,0);else if(k==='ArrowRight')rotate(0.12,0);else if(k==='ArrowUp')rotate(0,-0.12);else if(k==='ArrowDown')rotate(0,0.12);
+    else if(k==='+'||k==='=')zoom.set(clampZ(zoom.t-0.2));else if(k==='-'||k==='_')zoom.set(clampZ(zoom.t+0.2));else used=false;
+    if(used){e.preventDefault();touched();}
+  });
+  var btnGuest=document.getElementById('btn-guest'),btnSpin=document.getElementById('btn-spin');
+  btnGuest.addEventListener('click',function(){var on=guest.t<0.5;guest.set(on?1:0);btnGuest.setAttribute('aria-pressed',on?'true':'false');});
+  btnSpin.setAttribute('aria-pressed',spinning?'true':'false');
+  btnSpin.addEventListener('click',function(){spinning=!spinning;btnSpin.setAttribute('aria-pressed',spinning?'true':'false');});
+  document.getElementById('btn-in').addEventListener('click',function(){zoom.set(clampZ(zoom.t-0.25));});
+  document.getElementById('btn-out').addEventListener('click',function(){zoom.set(clampZ(zoom.t+0.25));});
+
+  /* ---------- frame ---------- */
+  function step(dt,now){
+    var i,cg,anyCage=false,nActive=0;
+    for(i=0;i<NC;i++){
+      cg=cages[i];
+      if(cg.pending!==null&&now>=cg.due){cg.p.set(cg.pending);cg.pending=null;}
+      if(cg.p.step(dt)||cg.dirty){writeCage(i);cg.dirty=false;anyCage=true;}
+      if(cg.p.x>0.0005||!cg.p.rest||cg.pending!==null)nActive=i+1;
+    }
+    if(guest.step(dt)){for(i=0;i<NC;i++)writeGuest(i);guestMesh.instanceMatrix.needsUpdate=true;dirty=true;}
+    if(anyCage){
+      writeLinks();atomMesh.instanceMatrix.needsUpdate=true;bondMesh.instanceMatrix.needsUpdate=true;guestMesh.instanceMatrix.needsUpdate=true;dirty=true;
+    }
+    atomMesh.count=nActive*28;bondMesh.count=nActive*42;guestMesh.count=nActive;
+    if(dqPending!==null&&now>=dqDue){dq.set(dqPending);dqPending=null;}
+    if(dq.step(dt)){writeDiamond();dirty=true;}
+    if(faceO.step(dt)){faceMesh.material.opacity=Math.max(0,faceO.x);faceMesh.visible=faceO.x>0.002;dirty=true;}
+    if(box1O.step(dt)){box1.material.opacity=Math.max(0,box1O.x)*0.9;box1.visible=box1O.x>0.002;dirty=true;}
+    if(box2O.step(dt)){box2.material.opacity=Math.max(0,box2O.x)*0.9;box2.visible=box2O.x>0.002;dirty=true;}
+    var c1=tx.step(dt),c2=ty.step(dt),c3=tz.step(dt),c4=rad.step(dt),c5=zoom.step(dt);
+    if(c1||c2||c3||c4||c5||camDirty){applyCamera();camDirty=false;dirty=true;}
+    if(!drag&&!pinch){
+      var base=spinning&&!reduce?SPIN:0,decay=Math.pow(0.998,dt*1000);
+      omegaY=base+(omegaY-base)*decay;omegaX*=decay;
+      if(Math.abs(omegaY-base)<0.0005)omegaY=base;if(Math.abs(omegaX)<0.0005)omegaX=0;
+      if(omegaY!==0||omegaX!==0)rotate(omegaY*dt,omegaX*dt);
+    }
+    if(dirty){renderer.render(scene,camera);dirty=false;}
+  }
+  theme();
+  if(window.matchMedia){var mq=window.matchMedia('(prefers-color-scheme: dark)');if(mq.addEventListener)mq.addEventListener('change',theme);}
+  if(window.MutationObserver)new MutationObserver(theme).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
+  if(mqReduce&&mqReduce.addEventListener)mqReduce.addEventListener('change',function(){reduce=mqReduce.matches;});
+  W=stageEl.clientWidth||960;H=stageEl.clientHeight||600;renderer.setSize(W,H,false);camera.aspect=W/H;
+  faceO.rest=box1O.rest=box2O.rest=false;
+  if(window.ResizeObserver)new ResizeObserver(resize).observe(stageEl);else window.addEventListener('resize',resize);
+  return {setStage:setStage,step:step,counts:counts,diamondCounts:function(){return [dAtoms.length,dBonds.length];},
+    debug:function(){var vis=0;cages.forEach(function(c){if(c.p.x>0.5)vis++;});return {stage:cur,cagesShown:vis,atomCount:atomMesh.count,links:NL,diamond:dq.x,dAtoms:dAtoms.length,dBonds:dBonds.length,zoom:zoom.x,rad:rad.x,omegaY:omegaY,thumb:thumb.x};}};
+})();
+setStage(3,true);
+var last=performance.now();
+function frame(now){
+  var dt=Math.min(0.05,Math.max(0,(now-last)/1000));last=now;
+  if(thumb.step(dt))placeThumb();
+  G.step(dt,now);
+  requestAnimationFrame(frame);
+}
+requestAnimationFrame(frame);
+window.__c28={stats:function(){return G.debug();},counts:function(n){return G.counts(n);}};
+})();
+</script>

@@ -1,0 +1,31 @@
+{
+ "model": "MACE-MP-0 large",
+ "what": "diamond",
+ "relax_seconds": 1.0,
+ "space_group_after": "Fd-3m (227)",
+ "a_conventional_A": 3.5321,
+ "energy_eV_per_atom": -9.091323972213262,
+ "max_force_eV_A": 7.965850201685498e-15,
+ "bonds_A": {
+  "1.529": 1
+ },
+ "density_g_cm3": 3.621,
+ "phonons": {
+  "n_displacements": 1,
+  "supercell_atoms": 128,
+  "min_freq_mesh_THz": 1.2314298443181428,
+  "min_freq_bandpath_THz": -8.90419663868291e-07,
+  "max_freq_THz": 39.906300634310554,
+  "max_freq_cm-1": 1331.1309255413228,
+  "gamma_THz": [
+   -0.0,
+   -0.0,
+   -0.0,
+   39.932,
+   39.932,
+   39.932
+  ]
+ },
+ "phonon_seconds": 4.4,
+ "verdict": "no imaginary modes found (dynamically stable at this level of theory)"
+}

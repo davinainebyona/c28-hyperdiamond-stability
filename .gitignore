@@ -1,0 +1,6 @@
+.venv/
+__pycache__/
+.claude/
+# run logs contain local file paths
+*_run.log
+hyperdiamond-stability/previous/

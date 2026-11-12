@@ -1,0 +1,7 @@
+# install torch first: pip install torch --index-url https://download.pytorch.org/whl/cpu
+mace-torch==0.3.17
+ase==3.29.0
+phonopy==4.10.0
+spglib==2.8.0
+seekpath==2.2.2
+matplotlib==3.11.2

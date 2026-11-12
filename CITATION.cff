@@ -1,0 +1,23 @@
+cff-version: 1.2.0
+message: "If you use this work, please cite it as below."
+title: "C28 hyperdiamond: a dynamical-stability screening with a machine-learned interatomic potential"
+type: dataset
+authors:
+  - name: "davinainebyona"
+    website: "https://github.com/davinainebyona"
+repository-code: "https://github.com/davinainebyona/c28-hyperdiamond-stability"
+date-released: 2026-11-12
+version: "0.1.0"
+license: MIT
+keywords:
+  - hyperdiamond
+  - C28
+  - fullerene
+  - phonons
+  - dynamical stability
+  - machine-learned interatomic potential
+abstract: >-
+  Screening-level test of the dynamical stability of C28 hyperdiamond, a hypothetical
+  carbon crystal proposed in 1992. Using the MACE-MP-0 potential at three model sizes,
+  the structure keeps Fd-3m symmetry after full relaxation and shows no imaginary phonon
+  modes. This is not a DFT result; limits are stated in the README.
