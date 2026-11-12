@@ -40,3 +40,20 @@
      Total force =     0.005363     Total SCF correction =     0.000005
           total   stress  (Ry/bohr**3)                   (kbar)     P=        0.34
      new unit-cell volume =   6897.27874 a.u.^3 (  1022.07126 Ang^3 )
+!    total energy              =   -1029.93326190 Ry
+     convergence has been achieved in   9 iterations
+     Total force =     0.002419     Total SCF correction =     0.000010
+          total   stress  (Ry/bohr**3)                   (kbar)     P=        0.02
+     new unit-cell volume =   6897.81832 a.u.^3 (  1022.15122 Ang^3 )
+!    total energy              =   -1029.93326588 Ry
+     convergence has been achieved in   7 iterations
+     Total force =     0.000854     Total SCF correction =     0.000004
+          total   stress  (Ry/bohr**3)                   (kbar)     P=       -0.04
+     new unit-cell volume =   6897.01737 a.u.^3 (  1022.03253 Ang^3 )
+!    total energy              =   -1029.93326682 Ry
+     convergence has been achieved in  10 iterations
+     Total force =     0.000222     Total SCF correction =     0.000003
+          total   stress  (Ry/bohr**3)                   (kbar)     P=       -0.02
+     new unit-cell volume =   6897.01737 a.u.^3 (  1022.03253 Ang^3 )
+     48 Sym. Ops., with inversion, found (24 have fractional translation)
+     number of k points=     3
