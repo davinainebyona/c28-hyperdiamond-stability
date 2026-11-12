@@ -1,0 +1,108 @@
+name: DFT check (Quantum ESPRESSO)
+
+# Runs the PBE relaxation and zone-centre phonons for diamond (control) and C28 hyperdiamond.
+# Starts when the DFT script or this file changes, or by hand from the Actions tab.
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "dft/dft.py"
+      - "dft/ci.sh"
+      - ".github/workflows/dft.yml"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: dft
+  cancel-in-progress: true
+
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  OMP_NUM_THREADS: "1"
+
+jobs:
+  diamond:
+    name: Diamond control
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: bash dft/ci.sh setup
+      - run: cd dft && python dft.py relax diamond && python dft.py disp diamond 0 && python dft.py collect diamond
+      - run: bash dft/ci.sh publish "DFT: diamond control results"
+      - if: always()
+        run: bash dft/ci.sh logs diamond
+
+  relax:
+    name: Hyperdiamond relaxation
+    runs-on: ubuntu-latest
+    timeout-minutes: 355
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: bash dft/ci.sh setup
+      - name: Save progress logs every 10 minutes
+        run: (while true; do sleep 600; bash dft/ci.sh logs relax-progress; done) &
+      - run: cd dft && python dft.py relax hyper
+      - run: bash dft/ci.sh publish "DFT: hyperdiamond relaxed structure"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: relaxed
+          path: dft/results/hyper_relaxed.json
+      - if: always()
+        run: bash dft/ci.sh logs relax
+
+  disp:
+    name: Displacement ${{ matrix.index }}
+    needs: relax
+    runs-on: ubuntu-latest
+    timeout-minutes: 355
+    strategy:
+      fail-fast: false
+      matrix:
+        index: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: bash dft/ci.sh setup
+      - uses: actions/download-artifact@v4
+        with:
+          name: relaxed
+          path: dft/results
+      - run: cd dft && python dft.py disp hyper ${{ matrix.index }}
+      - uses: actions/upload-artifact@v4
+        with:
+          name: forces-${{ matrix.index }}
+          path: dft/results/hyper_forces_*.npy
+          if-no-files-found: ignore
+      - if: always()
+        run: bash dft/ci.sh logs disp-${{ matrix.index }}
+
+  collect:
+    name: Phonons from forces
+    needs: disp
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: bash dft/ci.sh setup
+      - uses: actions/download-artifact@v4
+        with:
+          path: dft/results
+          merge-multiple: true
+      - run: cd dft && python dft.py collect hyper
+      - run: bash dft/ci.sh publish "DFT: hyperdiamond zone-centre phonons"
+      - if: always()
+        run: bash dft/ci.sh logs collect

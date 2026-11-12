@@ -4,3 +4,7 @@ __pycache__/
 # run logs contain local file paths
 *_run.log
 hyperdiamond-stability/previous/
+dft/tmp_*/
+dft/pseudo/
+dft/*.in
+dft/*.out
