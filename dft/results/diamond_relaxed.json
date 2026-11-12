@@ -1,0 +1,55 @@
+{
+ "cell": [
+  [
+   0.0,
+   1.786191345,
+   1.786191345
+  ],
+  [
+   1.786191345,
+   0.0,
+   1.786191345
+  ],
+  [
+   1.786191345,
+   1.786191345,
+   0.0
+  ]
+ ],
+ "scaled_positions": [
+  [
+   0.5,
+   0.5,
+   0.5
+  ],
+  [
+   0.75,
+   0.75,
+   0.7500000000000001
+  ]
+ ],
+ "numbers": [
+  6,
+  6
+ ],
+ "space_group": "Fd-3m (227)",
+ "n_atoms": 2,
+ "a_conventional_A": 3.5724,
+ "energy_eV_per_atom": -250.80041193548337,
+ "density_g_cm3": 3.4998,
+ "bonds_A": {
+  "1.547": 1
+ },
+ "n_ionic_steps": 3,
+ "settings": {
+  "functional": "PBE",
+  "pseudopotential": "C.pbe-n-kjpaw_psl.1.0.0.UPF",
+  "ecutwfc_Ry": 45.0,
+  "ecutrho_Ry": 360.0,
+  "kpoints": [
+   8,
+   8,
+   8
+  ]
+ }
+}
