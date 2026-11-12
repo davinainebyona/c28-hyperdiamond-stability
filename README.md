@@ -8,7 +8,7 @@ This repository asks one question: **is the structure dynamically stable, meanin
 
 This project started with a physics talk at my school about carbon structures: C60, nanotubes and the wider fullerene family. C28 was the one that caught my interest. It is the smallest fullerene seen in quantity, and its four open bonds point in the same directions as the bonds of a single carbon atom in diamond.
 
-The speaker also talked about producing a hyperdiamond, a crystal built from cages in place of atoms. A material that light, fully bonded, and with a band gap closer to a semiconductor's than diamond's sounded like something that could matter a great deal if it could ever be made. I wanted to look into it properly, not just read about it.
+The speaker also talked about potential for producing a hyperdiamond, a crystal built from cages in place of atoms. A material that light, fully bonded, and with a band gap closer to a semiconductor's than diamond's sounded like something that could matter a great deal if it could ever be made. I wanted to look into it properly, not just read about it.
 
 When I did, I found that the idea is over thirty years old and that the main calculations date from the 1990s. I could not find a recent study asking a basic question: would the structure hold together, or would its own vibrations pull it apart? That question can be tested on a laptop, so I tested it.
 
