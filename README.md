@@ -100,10 +100,6 @@ Runs without a suffix used the medium model and a 2×2×2 supercell.
 - Batatia et al., "A foundation model for atomistic materials chemistry" (MACE-MP-0). https://arxiv.org/abs/2401.00096
 - Togo, "First-principles phonon calculations with phonopy and phono3py", J. Phys. Soc. Jpn. 92, 012001 (2023).
 
-## How this was made
-
-The calculations, scripts and write-up were produced with the help of an AI coding assistant (Claude). The structure was derived from the published bond lengths and verified numerically; the literature values quoted come from papers read directly.
-
 ## Citing and licence
 
 If you use this work, please cite it using `CITATION.cff` (GitHub shows a "Cite this repository" button).
