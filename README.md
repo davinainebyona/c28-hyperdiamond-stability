@@ -4,6 +4,16 @@ C28 hyperdiamond is a hypothetical carbon crystal proposed in 1992: diamond's la
 
 This repository asks one question: **is the structure dynamically stable, meaning free of vibrational modes that would tear it apart?** It answers at screening level with a machine-learned interatomic potential, and states plainly what that does and does not show.
 
+## Why I did this
+
+This project started with a physics talk at my school about carbon structures: C60, nanotubes and the wider fullerene family. C28 was the one that caught my interest. It is the smallest fullerene seen in quantity, and its four open bonds point in the same directions as the bonds of a single carbon atom in diamond.
+
+The speaker also talked about producing a hyperdiamond, a crystal built from cages in place of atoms. A material that light, fully bonded, and with a band gap closer to a semiconductor's than diamond's sounded like something that could matter a great deal if it could ever be made. I wanted to look into it properly, not just read about it.
+
+When I did, I found that the idea is over thirty years old and that the main calculations date from the 1990s. I could not find a recent study asking a basic question: would the structure hold together, or would its own vibrations pull it apart? That question can be tested on a laptop, so I tested it.
+
+I am an A-level student, not a researcher. This is a screening result with clear limits, which are set out above. My aim is to add one small, checkable piece of evidence and to make everything open, so that anyone with better tools can confirm it, correct it, or take it further.
+
 ## Result
 
 With the MACE-MP-0 potential at three model sizes, C28 hyperdiamond keeps its Fd-3m symmetry after full relaxation and shows **no imaginary phonon modes**.
