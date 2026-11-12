@@ -34,7 +34,7 @@ jobs:
           python-version: "3.12"
       - run: bash dft/ci.sh setup
       - run: cd dft && python dft.py relax diamond && python dft.py disp diamond 0 && python dft.py collect diamond
-      - run: bash dft/ci.sh publish "DFT: diamond control results"
+      - run: bash dft/ci.sh publish "DFT - diamond control results"
       - if: always()
         run: bash dft/ci.sh logs diamond
 
@@ -51,7 +51,7 @@ jobs:
       - name: Save progress logs every 10 minutes
         run: (while true; do sleep 600; bash dft/ci.sh logs relax-progress; done) &
       - run: cd dft && python dft.py relax hyper
-      - run: bash dft/ci.sh publish "DFT: hyperdiamond relaxed structure"
+      - run: bash dft/ci.sh publish "DFT - hyperdiamond relaxed structure"
       - uses: actions/upload-artifact@v4
         with:
           name: relaxed
@@ -103,6 +103,6 @@ jobs:
           path: dft/results
           merge-multiple: true
       - run: cd dft && python dft.py collect hyper
-      - run: bash dft/ci.sh publish "DFT: hyperdiamond zone-centre phonons"
+      - run: bash dft/ci.sh publish "DFT - hyperdiamond zone-centre phonons"
       - if: always()
         run: bash dft/ci.sh logs collect
