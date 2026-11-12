@@ -1,5 +1,5 @@
 
-     Program PWSCF v.6.7MaX starts on 12Nov2026 at 23:12: 1 
+     Program PWSCF v.6.7MaX starts on 12Nov2026 at 23:13:57 
 
      This program is part of the open-source Quantum ESPRESSO suite
      for quantum simulation of materials; please cite
@@ -13,22 +13,13 @@
 
      MPI processes distributed on     1 nodes
      R & G space division:  proc/nbgrp/npool/nimage =       4
-     Reading input from /home/runner/work/c28-hyperdiamond-stability/c28-hyperdiamond-stability/dft/hyper_relax.in
+     Reading input from hyper_relax.in
 
      Current dimensions of program PWSCF are:
      Max number of different atomic species (ntypx) = 10
      Max number of k-points (npk) =  40000
      Max angular momentum in pseudopotentials (lmaxx) =  3
 *** buffer overflow detected ***: terminated
-
-Program received signal SIGABRT: Process abort signal.
-
-Backtrace for this error:
-*** buffer overflow detected ***: terminated
-
-Program received signal SIGABRT: Process abort signal.
-
-Backtrace for this error:
 *** buffer overflow detected ***: terminated
 *** buffer overflow detected ***: terminated
 
@@ -39,86 +30,95 @@ Backtrace for this error:
 Program received signal SIGABRT: Process abort signal.
 
 Backtrace for this error:
-#0  0x7f46e2a23e59 in ???
-#1  0x7f46e2a22e75 in ???
-#2  0x7f46e264532f in ???
-#3  0x7f46e269ec0c in pthread_kill
-#4  0x7f46e264527d in gsignal
-#5  0x7f46e26288fe in abort
-#6  0x7f46e26297b5 in ???
-#7  0x7f46e2736ea8 in __fortify_fail
-#8  0x7f46e2736863 in __chk_fail
-#9  0x7f46e2738044 in __snprintf_chk
-#10  0x557e633cb96e in ???
-#11  0x557e631e91d7 in ???
-#12  0x557e6324d007 in ???
-#13  0x557e630cd0c7 in ???
-#14  0x557e630cbf22 in ???
-#15  0x7f46e262a1c9 in ???
-#16  0x7f46e262a28a in __libc_start_main
-#17  0x557e630cbf54 in ???
+*** buffer overflow detected ***: terminated
+
+Program received signal SIGABRT: Process abort signal.
+
+Backtrace for this error:
+
+Program received signal SIGABRT: Process abort signal.
+
+Backtrace for this error:
+#0  0x7f0c81023e59 in ???
+#1  0x7f0c81022e75 in ???
+#2  0x7f0c80c4532f in ???
+#3  0x7f0c80c9ec0c in pthread_kill
+#4  0x7f0c80c4527d in gsignal
+#5  0x7f0c80c288fe in abort
+#6  0x7f0c80c297b5 in ???
+#7  0x7f0c80d36ea8 in __fortify_fail
+#8  0x7f0c80d36863 in __chk_fail
+#9  0x7f0c80d38044 in __snprintf_chk
+#10  0x55f83037396e in ???
+#11  0x55f8301911d7 in ???
+#12  0x55f8301f5007 in ???
+#13  0x55f8300750c7 in ???
+#14  0x55f830073f22 in ???
+#15  0x7f0c80c2a1c9 in ???
+#16  0x7f0c80c2a28a in __libc_start_main
+#17  0x55f830073f54 in ???
 #18  0xffffffffffffffff in ???
-#0  0x7fe8af623e59 in ???
-#1  0x7fe8af622e75 in ???
-#2  0x7fe8af24532f in ???
-#3  0x7fe8af29ec0c in pthread_kill
-#4  0x7fe8af24527d in gsignal
-#0  0x7fb1f0023e59 in ???
-#5  0x7fe8af2288fe in abort
-#6  0x7fe8af2297b5 in ???
-#7  0x7fe8af336ea8 in __fortify_fail
-#8  0x7fe8af336863 in __chk_fail
-#9  0x7fe8af338044 in __snprintf_chk
-#10  0x55fe789f296e in ???
-#11  0x55fe788101d7 in ???
-#12  0x55fe78874007 in ???
-#13  0x55fe786f40c7 in ???
-#14  0x55fe786f2f22 in ???
-#15  0x7fe8af22a1c9 in ???
-#16  0x7fe8af22a28a in __libc_start_main
-#17  0x55fe786f2f54 in ???
+#0  0x7fc8fe023e59 in ???
+#1  0x7fc8fe022e75 in ???
+#2  0x7fc8fdc4532f in ???
+#3  0x7fc8fdc9ec0c in pthread_kill
+#4  0x7fc8fdc4527d in gsignal
+#5  0x7fc8fdc288fe in abort
+#6  0x7fc8fdc297b5 in ???
+#7  0x7fc8fdd36ea8 in __fortify_fail
+#8  0x7fc8fdd36863 in __chk_fail
+#9  0x7fc8fdd38044 in __snprintf_chk
+#10  0x55ad6973096e in ???
+#11  0x55ad6954e1d7 in ???
+#12  0x55ad695b2007 in ???
+#13  0x55ad694320c7 in ???
+#14  0x55ad69430f22 in ???
+#15  0x7fc8fdc2a1c9 in ???
+#16  0x7fc8fdc2a28a in __libc_start_main
+#17  0x55ad69430f54 in ???
 #18  0xffffffffffffffff in ???
-#1  0x7fb1f0022e75 in ???
-#2  0x7fb1efc4532f in ???
-#3  0x7fb1efc9ec0c in pthread_kill
-#4  0x7fb1efc4527d in gsignal
-#5  0x7fb1efc288fe in abort
-#6  0x7fb1efc297b5 in ???
-#7  0x7fb1efd36ea8 in __fortify_fail
-#8  0x7fb1efd36863 in __chk_fail
-#9  0x7fb1efd38044 in __snprintf_chk
-#10  0x5592be26996e in ???
-#11  0x5592be0871d7 in ???
-#12  0x5592be0eb007 in ???
-#13  0x5592bdf6b0c7 in ???
-#14  0x5592bdf69f22 in ???
-#15  0x7fb1efc2a1c9 in ???
-#16  0x7fb1efc2a28a in __libc_start_main
-#17  0x5592bdf69f54 in ???
+#0  0x7fd959223e59 in ???
+#1  0x7fd959222e75 in ???
+#2  0x7fd958e4532f in ???
+#3  0x7fd958e9ec0c in pthread_kill
+#4  0x7fd958e4527d in gsignal
+#5  0x7fd958e288fe in abort
+#6  0x7fd958e297b5 in ???
+#7  0x7fd958f36ea8 in __fortify_fail
+#8  0x7fd958f36863 in __chk_fail
+#9  0x7fd958f38044 in __snprintf_chk
+#10  0x55f89576996e in ???
+#11  0x55f8955871d7 in ???
+#12  0x55f8955eb007 in ???
+#13  0x55f89546b0c7 in ???
+#14  0x55f895469f22 in ???
+#15  0x7fd958e2a1c9 in ???
+#16  0x7fd958e2a28a in __libc_start_main
+#17  0x55f895469f54 in ???
 #18  0xffffffffffffffff in ???
-#0  0x7f97bb623e59 in ???
-#1  0x7f97bb622e75 in ???
-#2  0x7f97bb24532f in ???
-#3  0x7f97bb29ec0c in pthread_kill
-#4  0x7f97bb24527d in gsignal
-#5  0x7f97bb2288fe in abort
-#6  0x7f97bb2297b5 in ???
-#7  0x7f97bb336ea8 in __fortify_fail
-#8  0x7f97bb336863 in __chk_fail
-#9  0x7f97bb338044 in __snprintf_chk
-#10  0x5571c46e196e in ???
-#11  0x5571c44ff1d7 in ???
-#12  0x5571c4563007 in ???
-#13  0x5571c43e30c7 in ???
-#14  0x5571c43e1f22 in ???
-#15  0x7f97bb22a1c9 in ???
-#16  0x7f97bb22a28a in __libc_start_main
-#17  0x5571c43e1f54 in ???
+#0  0x7ff360c23e59 in ???
+#1  0x7ff360c22e75 in ???
+#2  0x7ff36084532f in ???
+#3  0x7ff36089ec0c in pthread_kill
+#4  0x7ff36084527d in gsignal
+#5  0x7ff3608288fe in abort
+#6  0x7ff3608297b5 in ???
+#7  0x7ff360936ea8 in __fortify_fail
+#8  0x7ff360936863 in __chk_fail
+#9  0x7ff360938044 in __snprintf_chk
+#10  0x55dde727b96e in ???
+#11  0x55dde70991d7 in ???
+#12  0x55dde70fd007 in ???
+#13  0x55dde6f7d0c7 in ???
+#14  0x55dde6f7bf22 in ???
+#15  0x7ff36082a1c9 in ???
+#16  0x7ff36082a28a in __libc_start_main
+#17  0x55dde6f7bf54 in ???
 #18  0xffffffffffffffff in ???
 --------------------------------------------------------------------------
 Primary job  terminated normally, but 1 process returned
 a non-zero exit code. Per user-direction, the job has been aborted.
 --------------------------------------------------------------------------
 --------------------------------------------------------------------------
-mpirun noticed that process rank 3 with PID 0 on node runnervm8axu0 exited on signal 6 (Aborted).
+mpirun noticed that process rank 1 with PID 0 on node runnervm8axu0 exited on signal 6 (Aborted).
 --------------------------------------------------------------------------
