@@ -11,13 +11,16 @@ ident() { git -C "$1" config user.name "github-actions[bot]"; git -C "$1" config
 case "$1" in
   setup)
     set -e
-    sudo apt-get update -qq
-    sudo apt-get install -y -qq quantum-espresso
+    # The Ubuntu-packaged pw.x 6.7 aborts with a buffer overflow on these runners, so use the conda-forge build.
+    curl -fsSL https://micro.mamba.pm/api/micromamba/linux-64/latest | tar -xj -C "$HOME" bin/micromamba
+    "$HOME/bin/micromamba" create -y -q -p "$HOME/qe" -c conda-forge qe
+    echo "$HOME/qe/bin" >> "$GITHUB_PATH"
+    export PATH="$HOME/qe/bin:$PATH"
     pip install -q ase==3.29.0 phonopy==4.10.0 spglib==2.8.0 numpy
     mkdir -p pseudo results
     curl -fsSL -o pseudo/C.pbe-n-kjpaw_psl.1.0.0.UPF https://pseudopotentials.quantum-espresso.org/upf_files/C.pbe-n-kjpaw_psl.1.0.0.UPF
     test "$(wc -c < pseudo/C.pbe-n-kjpaw_psl.1.0.0.UPF)" -gt 100000
-    which pw.x; nproc
+    which pw.x mpirun; nproc
     ;;
   publish)
     D=$(mktemp -d)
