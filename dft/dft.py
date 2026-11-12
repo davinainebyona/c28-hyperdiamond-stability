@@ -40,7 +40,7 @@ def start_structure(name):
 
 
 def run_pw(atoms, label, calculation, kpts, conv_thr):
-    inp = {"control": {"calculation": calculation, "pseudo_dir": os.path.join(HERE, "pseudo"), "outdir": os.path.join(HERE, f"tmp_{label}"),
+    inp = {"control": {"calculation": calculation, "pseudo_dir": "./pseudo", "outdir": f"./tmp_{label}",
                        "prefix": label, "tprnfor": True, "tstress": True, "disk_io": "low", "forc_conv_thr": 1.0e-4, "etot_conv_thr": 1.0e-6},
            "system": {"ecutwfc": ECUTWFC, "ecutrho": ECUTRHO, "occupations": "fixed"},
            "electrons": {"conv_thr": conv_thr, "mixing_beta": 0.5, "electron_maxstep": 200},
@@ -54,8 +54,9 @@ def run_pw(atoms, label, calculation, kpts, conv_thr):
     txt = re.sub("&(" + drop + ")[^/]*/[^" + nl + "]*" + nl, "", open(fin).read())
     with open(fin, "w", newline=nl) as f:
         f.write(txt)
+    # short relative paths: the packaged pw.x 6.7 overflows on long ones
     with open(fout, "w") as f:
-        subprocess.run(["mpirun", "--oversubscribe", "-np", NP, "pw.x", "-in", fin], stdout=f, stderr=subprocess.STDOUT, cwd=HERE, check=False)
+        subprocess.run(["mpirun", "--oversubscribe", "-np", NP, "pw.x", "-in", f"{label}.in"], stdout=f, stderr=subprocess.STDOUT, cwd=HERE, check=False)
     text = open(fout, errors="replace").read()
     if "JOB DONE" not in text:
         sys.exit(f"pw.x did not finish for {label}; last lines:\n" + "\n".join(text.splitlines()[-40:]))
