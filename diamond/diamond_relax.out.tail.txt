@@ -1,124 +1,250 @@
+     total cpu time spent up to now is        3.3 secs
 
-     Program PWSCF v.6.7MaX starts on 12Nov2026 at 23:13:48 
+     total energy              =     -36.86692440 Ry
+     estimated scf accuracy    <       0.00019271 Ry
 
-     This program is part of the open-source Quantum ESPRESSO suite
-     for quantum simulation of materials; please cite
-         "P. Giannozzi et al., J. Phys.:Condens. Matter 21 395502 (2009);
-         "P. Giannozzi et al., J. Phys.:Condens. Matter 29 465901 (2017);
-          URL http://www.quantum-espresso.org", 
-     in publications or presentations arising from this work. More details at
-     http://www.quantum-espresso.org/quote
+     iteration #  4     ecut=    45.00 Ry     beta= 0.50
+     Davidson diagonalization with overlap
+     ethr =  2.41E-06,  avg # of iterations =  2.6
 
-     Parallel version (MPI), running on     4 processors
+     total cpu time spent up to now is        3.4 secs
 
-     MPI processes distributed on     1 nodes
-     R & G space division:  proc/nbgrp/npool/nimage =       4
-     Reading input from diamond_relax.in
+     total energy              =     -36.86697818 Ry
+     estimated scf accuracy    <       0.00000141 Ry
 
-     Current dimensions of program PWSCF are:
-     Max number of different atomic species (ntypx) = 10
-     Max number of k-points (npk) =  40000
-     Max angular momentum in pseudopotentials (lmaxx) =  3
-*** buffer overflow detected ***: terminated
+     iteration #  5     ecut=    45.00 Ry     beta= 0.50
+     Davidson diagonalization with overlap
+     ethr =  1.76E-08,  avg # of iterations =  4.3
 
-Program received signal SIGABRT: Process abort signal.
-*** buffer overflow detected ***: terminated
+     total cpu time spent up to now is        3.5 secs
 
-Program received signal SIGABRT: Process abort signal.
+     total energy              =     -36.86698051 Ry
+     estimated scf accuracy    <       0.00000013 Ry
 
-Backtrace for this error:
-*** buffer overflow detected ***: terminated
-*** buffer overflow detected ***: terminated
+     iteration #  6     ecut=    45.00 Ry     beta= 0.50
+     Davidson diagonalization with overlap
+     ethr =  1.68E-09,  avg # of iterations =  2.2
 
-Program received signal SIGABRT: Process abort signal.
+     total cpu time spent up to now is        3.6 secs
 
-Backtrace for this error:
+     total energy              =     -36.86698056 Ry
+     estimated scf accuracy    <       0.00000002 Ry
 
-Backtrace for this error:
+     iteration #  7     ecut=    45.00 Ry     beta= 0.50
+     Davidson diagonalization with overlap
+     ethr =  2.03E-10,  avg # of iterations =  2.2
 
-Program received signal SIGABRT: Process abort signal.
+     total cpu time spent up to now is        3.7 secs
 
-Backtrace for this error:
-#0  0x7fc629c23e59 in ???
-#1  0x7fc629c22e75 in ???
-#2  0x7fc62984532f in ???
-#3  0x7fc62989ec0c in pthread_kill
-#4  0x7fc62984527d in gsignal
-#5  0x7fc6298288fe in abort
-#6  0x7fc6298297b5 in ???
-#7  0x7fc629936ea8 in __fortify_fail
-#8  0x7fc629936863 in __chk_fail
-#9  0x7fc629938044 in __snprintf_chk
-#10  0x56152b48896e in ???
-#11  0x56152b2a61d7 in ???
-#12  0x56152b30a007 in ???
-#13  0x56152b18a0c7 in ???
-#14  0x56152b188f22 in ???
-#15  0x7fc62982a1c9 in ???
-#16  0x7fc62982a28a in __libc_start_main
-#17  0x56152b188f54 in ???
-#18  0xffffffffffffffff in ???
-#0  0x7ffa85c23e59 in ???
-#1  0x7ffa85c22e75 in ???
-#2  0x7ffa8584532f in ???
-#3  0x7ffa8589ec0c in pthread_kill
-#4  0x7ffa8584527d in gsignal
-#5  0x7ffa858288fe in abort
-#6  0x7ffa858297b5 in ???
-#7  0x7ffa85936ea8 in __fortify_fail
-#8  0x7ffa85936863 in __chk_fail
-#9  0x7ffa85938044 in __snprintf_chk
-#10  0x5611f7aa396e in ???
-#11  0x5611f78c11d7 in ???
-#12  0x5611f7925007 in ???
-#13  0x5611f77a50c7 in ???
-#14  0x5611f77a3f22 in ???
-#15  0x7ffa8582a1c9 in ???
-#16  0x7ffa8582a28a in __libc_start_main
-#17  0x5611f77a3f54 in ???
-#18  0xffffffffffffffff in ???
-#0  0x7f3f4ea23e59 in ???
-#1  0x7f3f4ea22e75 in ???
-#2  0x7f3f4e64532f in ???
-#3  0x7f3f4e69ec0c in pthread_kill
-#4  0x7f3f4e64527d in gsignal
-#5  0x7f3f4e6288fe in abort
-#6  0x7f3f4e6297b5 in ???
-#7  0x7f3f4e736ea8 in __fortify_fail
-#8  0x7f3f4e736863 in __chk_fail
-#9  0x7f3f4e738044 in __snprintf_chk
-#10  0x561b2417296e in ???
-#11  0x561b23f901d7 in ???
-#12  0x561b23ff4007 in ???
-#13  0x561b23e740c7 in ???
-#14  0x561b23e72f22 in ???
-#15  0x7f3f4e62a1c9 in ???
-#16  0x7f3f4e62a28a in __libc_start_main
-#17  0x561b23e72f54 in ???
-#18  0xffffffffffffffff in ???
-#0  0x7fabaa823e59 in ???
-#1  0x7fabaa822e75 in ???
-#2  0x7fabaa44532f in ???
-#3  0x7fabaa49ec0c in pthread_kill
-#4  0x7fabaa44527d in gsignal
-#5  0x7fabaa4288fe in abort
-#6  0x7fabaa4297b5 in ???
-#7  0x7fabaa536ea8 in __fortify_fail
-#8  0x7fabaa536863 in __chk_fail
-#9  0x7fabaa538044 in __snprintf_chk
-#10  0x55d85db7796e in ???
-#11  0x55d85d9951d7 in ???
-#12  0x55d85d9f9007 in ???
-#13  0x55d85d8790c7 in ???
-#14  0x55d85d877f22 in ???
-#15  0x7fabaa42a1c9 in ???
-#16  0x7fabaa42a28a in __libc_start_main
-#17  0x55d85d877f54 in ???
-#18  0xffffffffffffffff in ???
---------------------------------------------------------------------------
-Primary job  terminated normally, but 1 process returned
-a non-zero exit code. Per user-direction, the job has been aborted.
---------------------------------------------------------------------------
---------------------------------------------------------------------------
-mpirun noticed that process rank 1 with PID 0 on node runnervm7aw5e exited on signal 6 (Aborted).
---------------------------------------------------------------------------
+     total energy              =     -36.86698056 Ry
+     estimated scf accuracy    <          6.4E-11 Ry
+
+     iteration #  8     ecut=    45.00 Ry     beta= 0.50
+     Davidson diagonalization with overlap
+     ethr =  8.04E-13,  avg # of iterations =  4.5
+
+     total cpu time spent up to now is        3.8 secs
+
+     End of self-consistent calculation
+
+          k = 0.0000 0.0000 0.0000 (   387 PWs)   bands (ev):
+
+    -8.1498  13.2662  13.2662  13.2662
+
+          k = 0.0883 0.0883-0.0883 (   381 PWs)   bands (ev):
+
+    -7.7190  10.8599  12.6169  12.6169
+
+          k = 0.1767 0.1767-0.1767 (   386 PWs)   bands (ev):
+
+    -6.4407   6.6955  11.5273  11.5273
+
+          k = 0.2650 0.2650-0.2650 (   395 PWs)   bands (ev):
+
+    -4.3832   2.6266  10.7472  10.7472
+
+          k =-0.3533-0.3533 0.3533 (   392 PWs)   bands (ev):
+
+    -2.4021  -0.0586  10.4755  10.4755
+
+          k = 0.1767 0.0000 0.0000 (   383 PWs)   bands (ev):
+
+    -7.5757  11.5496  11.5496  11.9406
+
+          k = 0.2650 0.0883-0.0883 (   384 PWs)   bands (ev):
+
+    -6.5802   8.1938  10.4037  11.2399
+
+          k = 0.3533 0.1767-0.1767 (   390 PWs)   bands (ev):
+
+    -4.7754   4.1794   9.7575  10.0778
+
+          k =-0.2650-0.4416 0.4416 (   391 PWs)   bands (ev):
+
+    -2.4553   0.7550   9.1290   9.7553
+
+          k =-0.1767-0.3533 0.3533 (   392 PWs)   bands (ev):
+
+    -3.2203   1.7536   8.7002  10.3681
+
+          k =-0.0883-0.2650 0.2650 (   389 PWs)   bands (ev):
+
+    -5.4624   5.5254   8.9171  11.4335
+
+          k = 0.0000-0.1767 0.1767 (   381 PWs)   bands (ev):
+
+    -7.0058   9.2926  10.0296  12.5113
+
+          k = 0.3533 0.0000 0.0000 (   375 PWs)   bands (ev):
+
+    -5.8733   8.7547   9.1618   9.1618
+
+          k = 0.4416 0.0883-0.0883 (   397 PWs)   bands (ev):
+
+    -4.3491   5.7666   8.0617   8.4339
+
+          k =-0.1767-0.5300 0.5300 (   395 PWs)   bands (ev):
+
+    -2.1512   2.5108   6.5485   8.4086
+
+          k =-0.0883-0.4416 0.4416 (   394 PWs)   bands (ev):
+
+    -1.4583   1.7150   5.5498   9.0792
+
+          k = 0.0000-0.3533 0.3533 (   399 PWs)   bands (ev):
+
+    -3.6989   4.5866   5.6890  10.2657
+
+          k = 0.5300 0.0000 0.0000 (   387 PWs)   bands (ev):
+
+    -3.1138   4.6976   7.5494   7.5494
+
+          k =-0.0883-0.6183 0.6183 (   395 PWs)   bands (ev):
+
+    -1.1593   2.6175   5.9541   7.3673
+
+          k = 0.0000-0.5300 0.5300 (   391 PWs)   bands (ev):
+
+     0.3140   1.5612   3.9920   7.9231
+
+          k =-0.7066 0.0000 0.0000 (   388 PWs)   bands (ev):
+
+     0.5320   0.5320   6.9919   6.9919
+
+          k = 0.3533 0.1767 0.0000 (   393 PWs)   bands (ev):
+
+    -5.3194   6.7714   7.7875  10.3888
+
+          k =-0.2650-0.4416 0.6183 (   395 PWs)   bands (ev):
+
+    -3.3020   3.4487   7.0085   9.2010
+
+          k =-0.1767-0.3533 0.5300 (   394 PWs)   bands (ev):
+
+    -1.3940   0.9453   6.9720   8.5980
+
+          k =-0.1767-0.5300 0.7066 (   397 PWs)   bands (ev):
+
+    -2.6072   4.2710   6.3010   7.3510
+
+          k =-0.0883-0.4416 0.6183 (   393 PWs)   bands (ev):
+
+    -0.4250   2.1255   4.8874   6.9449
+
+          k = 0.0000-0.3533 0.5300 (   396 PWs)   bands (ev):
+
+    -1.2127   2.8831   4.4352   7.8150
+
+          k =-0.7066 0.1767 0.0000 (   392 PWs)   bands (ev):
+
+     0.8670   0.8670   5.9824   5.9824
+
+          k =-0.7066 0.3533 0.0000 (   396 PWs)   bands (ev):
+
+     1.3153   1.3153   4.9813   4.9813
+
+     highest occupied level (ev):    13.2662
+
+!    total energy              =     -36.86698056 Ry
+     total all-electron energy =      -152.395175 Ry
+     estimated scf accuracy    <          3.8E-12 Ry
+
+     The total energy is the sum of the following terms:
+     one-electron contribution =       8.41526672 Ry
+     hartree contribution      =       1.94529365 Ry
+     xc contribution           =      -9.36804923 Ry
+     ewald contribution        =     -25.53429248 Ry
+     one-center paw contrib.   =     -12.32519921 Ry
+
+     convergence has been achieved in   8 iterations
+
+     Forces acting on atoms (cartesian axes, Ry/au):
+
+     atom    1 type  1   force =     0.00000000    0.00000000    0.00000000
+     atom    2 type  1   force =     0.00000000    0.00000000    0.00000000
+
+     Total force =     0.000000     Total SCF correction =     0.000000
+
+
+     Computing stress (Cartesian axis) and pressure
+
+          total   stress  (Ry/bohr**3)                   (kbar)     P=        0.03
+   0.00000017   0.00000000   0.00000000            0.03        0.00        0.00
+   0.00000000   0.00000017   0.00000000            0.00        0.03        0.00
+  -0.00000000   0.00000000   0.00000017           -0.00        0.00        0.03
+
+
+     Writing all to output data dir ./tmp_diamond_relax/diamond_relax.save/ :
+     XML data file, charge density, pseudopotentials, collected wavefunctions
+
+     init_run     :      0.49s CPU      0.54s WALL (       2 calls)
+     electrons    :      2.17s CPU      2.75s WALL (       5 calls)
+     update_pot   :      0.10s CPU      0.12s WALL (       3 calls)
+     forces       :      0.04s CPU      0.05s WALL (       5 calls)
+     stress       :      0.17s CPU      0.18s WALL (       5 calls)
+
+     Called by init_run:
+     wfcinit      :      0.05s CPU      0.06s WALL (       2 calls)
+     potinit      :      0.20s CPU      0.21s WALL (       2 calls)
+     hinit0       :      0.23s CPU      0.25s WALL (       2 calls)
+
+     Called by electrons:
+     c_bands      :      1.09s CPU      1.38s WALL (      29 calls)
+     sum_band     :      0.23s CPU      0.28s WALL (      29 calls)
+     v_of_rho     :      0.10s CPU      0.11s WALL (      31 calls)
+     newd         :      0.04s CPU      0.07s WALL (      31 calls)
+     PAW_pot      :      0.94s CPU      1.15s WALL (      34 calls)
+     mix_rho      :      0.01s CPU      0.01s WALL (      29 calls)
+
+     Called by c_bands:
+     init_us_2    :      0.04s CPU      0.05s WALL (    2117 calls)
+     cegterg      :      1.04s CPU      1.31s WALL (     841 calls)
+
+     Called by *egterg:
+     cdiaghg      :      0.07s CPU      0.09s WALL (    2703 calls)
+     h_psi        :      0.86s CPU      1.08s WALL (    2935 calls)
+     s_psi        :      0.01s CPU      0.02s WALL (    2935 calls)
+     g_psi        :      0.01s CPU      0.01s WALL (    2036 calls)
+
+     Called by h_psi:
+     h_psi:calbec :      0.04s CPU      0.05s WALL (    2935 calls)
+     vloc_psi     :      0.79s CPU      0.99s WALL (    2935 calls)
+     add_vuspsi   :      0.01s CPU      0.02s WALL (    2935 calls)
+
+     General routines
+     calbec       :      0.07s CPU      0.09s WALL (    6328 calls)
+     fft          :      0.13s CPU      0.14s WALL (     524 calls)
+     ffts         :      0.12s CPU      0.12s WALL (      60 calls)
+     fftw         :      0.81s CPU      1.02s WALL (   24308 calls)
+     interpolate  :      0.12s CPU      0.12s WALL (      31 calls)
+
+     Parallel routines
+
+     PWSCF        :      3.19s CPU      3.91s WALL
+
+
+   This run was terminated on:  23:16: 0  12Nov2026            
+
+=------------------------------------------------------------------------------=
+   JOB DONE.
+=------------------------------------------------------------------------------=
