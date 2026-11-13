@@ -54,7 +54,7 @@ def bond_lengths(atoms, cutoff=1.75):
 
 def phonons(atoms, calc, n, tag):
     cell = PhonopyAtoms(symbols=atoms.get_chemical_symbols(), cell=atoms.cell[:], scaled_positions=atoms.get_scaled_positions())
-    ph = Phonopy(cell, supercell_matrix=np.eye(3, dtype=int) * n, primitive_matrix=np.eye(3))
+    ph = Phonopy(cell, supercell_matrix=np.diag(n), primitive_matrix=np.eye(3))
     ph.generate_displacements(distance=0.01)
     scs = ph.supercells_with_displacements
     print(f"  {len(scs)} displaced supercells of {len(scs[0])} atoms", flush=True)
@@ -90,22 +90,26 @@ def phonons(atoms, calc, n, tag):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("what", choices=["diamond", "hyper"])
+    ap.add_argument("what", choices=["diamond", "hyper", "custom"])
     ap.add_argument("--model", default="medium")
-    ap.add_argument("--supercell", type=int, default=None)
+    ap.add_argument("--supercell", default=None, help="N or N,N,N")
+    ap.add_argument("--cif", default=None, help="structure file for the custom mode")
     ap.add_argument("--fmax", type=float, default=0.005)
     ap.add_argument("--tag", default=None, help="label for output files, so runs do not overwrite each other")
     args = ap.parse_args()
     calc = get_calc(args.model)
+    sc = [int(x) for x in args.supercell.split(",")] if args.supercell else None
+    if sc and len(sc) == 1:
+        sc = sc * 3
     tag = args.tag or args.what
     out = {"model": f"MACE-MP-0 {args.model}", "what": args.what}
 
     if args.what == "diamond":
         at = bulk("C", "diamond", a=3.567)
-        n = args.supercell or 4
+        n = sc or [4, 4, 4]
     else:
-        at = primitive(read("hyperdiamond.cif"))
-        n = args.supercell or 2
+        at = primitive(read(args.cif if args.what == "custom" else "hyperdiamond.cif"))
+        n = sc or [2, 2, 2]
         out["start_bonds_A"] = bond_lengths(at)
     print(f"{args.what}: {len(at)} atoms in primitive cell, start space group {spacegroup(at)}", flush=True)
 
@@ -113,7 +117,8 @@ def main():
     relax(at, calc, args.fmax, f"{tag}_relax.log")
     a_conv = float((4 * at.get_volume()) ** (1 / 3))  # conventional cubic edge of an fcc lattice
     out.update({"relax_seconds": round(time.time() - t, 1), "space_group_after": spacegroup(at),
-                "a_conventional_A": round(a_conv, 4), "energy_eV_per_atom": float(at.get_potential_energy() / len(at)),
+                "a_conventional_A": round(a_conv, 4), "cell_lengths_angles": [round(float(x), 4) for x in at.cell.cellpar()],
+                "volume_A3_per_atom": round(float(at.get_volume() / len(at)), 4), "energy_eV_per_atom": float(at.get_potential_energy() / len(at)),
                 "max_force_eV_A": float(np.abs(at.get_forces()).max()), "bonds_A": bond_lengths(at),
                 "density_g_cm3": round(len(at) * 12.011 * 1.66053907 / at.get_volume(), 4)})
     write(f"{tag}_relaxed.cif", at)

@@ -1,10 +1,10 @@
-# C28 hyperdiamond: a dynamical-stability screening
+# C28 hyperdiamond: a dynamical-stability check
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.24154048.svg)](https://doi.org/10.5281/zenodo.24154048)
 
 C28 hyperdiamond is a hypothetical carbon crystal proposed in 1992: diamond's lattice with a 28-atom fullerene cage on every site. It has been studied with density-functional theory (DFT) but never synthesised.
 
-This repository asks one question: **is the structure dynamically stable, meaning free of vibrational modes that would tear it apart?** It answers at screening level with a machine-learned interatomic potential, and states plainly what that does and does not show.
+This repository asks one question: **is the structure dynamically stable, meaning free of vibrational modes that would tear it apart?** It answers with a DFT calculation at the zone centre and a machine-learned interatomic potential across the rest of the zone, and states plainly what that does and does not show.
 
 ## Why I did this
 
@@ -18,7 +18,24 @@ I am an A-level student, not a researcher. This is a screening result with clear
 
 ## Result
 
-With the MACE-MP-0 potential at three model sizes, C28 hyperdiamond keeps its Fd-3m symmetry after full relaxation and shows **no imaginary phonon modes**.
+**C28 hyperdiamond shows no dynamical instability, in a DFT calculation at the zone centre and in a machine-learned screening across the whole Brillouin zone.**
+
+### DFT (Quantum ESPRESSO, PBE)
+
+| | C28 hyperdiamond | Diamond (control) |
+|---|---|---|
+| Symmetry after relaxation | Fd-3m | Fd-3m |
+| Cubic cell edge | 15.990 Å | 3.572 Å (measured 3.567) |
+| Energy above diamond | 0.569 eV/atom | 0 |
+| Density | 1.09 g/cm³ | 3.50 g/cm³ |
+| Bond lengths | 1.412, 1.508, 1.542 Å in the cage; 1.546 Å between cages | 1.547 Å |
+| Lowest optical modes at Γ | 1.77, 5.59, 6.65 THz (each triply degenerate) | n/a |
+| Highest mode at Γ | 1504 cm⁻¹ | 1289 cm⁻¹ (measured 1332) |
+| Imaginary modes at Γ | none | none |
+
+The diamond control reproduces the standard PBE values, which is the check that the setup is sound. The published LDA cell edge for hyperdiamond is 15.777 Å (Zeger et al. 1995); LDA generally gives smaller cells than PBE.
+
+### Machine-learned potential (MACE-MP-0), full Brillouin zone
 
 | Run | Cubic cell edge (Å) | Energy above diamond (eV/atom) | Softest optical mode at Γ (THz) | Next mode (THz) | Imaginary modes |
 |---|---|---|---|---|---|
@@ -26,16 +43,46 @@ With the MACE-MP-0 potential at three model sizes, C28 hyperdiamond keeps its Fd
 | medium, 2×2×2 supercell | 15.945 | 0.580 | 0.87 | 4.19 | none |
 | large, 2×2×2 supercell | 15.991 | 0.651 | 1.32 | 4.97 | none |
 | medium, 3×3×3 supercell | 15.945 | 0.580 | 0.87 | 4.19 | none |
-| Published DFT-LDA (Zeger et al. 1995) | 15.777 | 0.744 | n/a | n/a | n/a |
+| **DFT (PBE), Γ only** | **15.990** | **0.569** | **1.77** | **5.59** | **none** |
 
-All three models find a triply degenerate low-frequency mode well separated from the rest of the spectrum. Its frequency is the least certain number here, and it is where an instability would appear first.
+The potential agrees with DFT on the cell edge to within about 0.3% and on the energy to within about 0.08 eV/atom. It underestimates the soft mode's frequency, but every model and the DFT calculation agree that the mode is real and well separated from the rest.
 
 ![Phonon bands of C28 hyperdiamond, MACE-MP-0 medium](hyperdiamond-stability/hyper_phonon_bands.png)
 
+### What the soft mode is
+
+Projecting the mode onto rigid-body motion of each cage (MACE-MP-0 medium):
+
+| Mode | Rigid rotation | Rigid translation | Cage deformation |
+|---|---|---|---|
+| Lowest optical (0.87 THz ML, 1.77 THz DFT) | 99.8% | 0.0% | 0.2% |
+| Next (4.19 THz ML, 5.59 THz DFT) | 0.0% | 89.6%, cages moving against each other | 10.4% |
+
+The softest vibration is the cages twisting as rigid bodies about their single connecting bonds. The next is the two cages moving against each other, the analogue of diamond's own optical mode. Hyperdiamond vibrates like a crystal of rigid superatoms, which is the picture Kaxiras et al. proposed in 1994 from its electronic structure.
+
+### Elastic constants (MACE-MP-0 medium)
+
+| | C11 (GPa) | C12 (GPa) | C44 (GPa) | Bulk modulus (GPa) | Mechanically stable |
+|---|---|---|---|---|---|
+| C28 hyperdiamond | 44 | 9 | 14 | 21 | yes (Born criteria) |
+| Diamond, same method | 823 | 254 | 244 | 443 | yes |
+| Diamond, measured | 1079 | 124 | 578 | 443 | |
+
+The potential gets diamond's bulk modulus right but its shear constants badly wrong, so only hyperdiamond's bulk modulus should be taken as a rough estimate: about one twentieth of diamond's.
+
+### Heated molecular dynamics (MACE-MP-0 medium, 56 atoms, 3 ps)
+
+| Temperature | Bonds permanently broken | New bonds formed | Longest bond seen |
+|---|---|---|---|
+| 300 K | 0 | 0 | 1.72 Å |
+| 1500 K | 0 | 0 | 1.99 Å |
+
+At 1500 K, single bonds stretched past 1.9 Å in 7 of 60 snapshots and returned each time. The bond network was the same at the end as at the start.
+
 ## What this is not
 
-- **It is not DFT.** MACE-MP-0 is a general-purpose potential trained on Materials Project data. It was never trained on C28 cages.
-- **The models are imperfect on carbon.** For diamond they give:
+- **The DFT phonons cover the zone centre only.** They were computed in the 56-atom primitive cell, so they test the Γ point. Stability away from Γ rests on the machine-learned potential. A full DFT dispersion needs a 448-atom supercell, which is beyond the free computing used here.
+- **The machine-learned models are imperfect on carbon.** For diamond they give:
 
   | Model | Cell edge (measured 3.567 Å) | Highest phonon (measured 1332 cm⁻¹) |
   |---|---|---|
@@ -43,16 +90,18 @@ All three models find a triply degenerate low-frequency mode well separated from
   | medium | 3.570 | 1172 |
   | large | 3.532 | 1331 |
 
-  No single model gets both right. They also disagree on hyperdiamond's cage-to-cage bond (1.45 to 1.50 Å, against 1.539 Å in published DFT).
-- **Three sizes of one model family are not three independent methods.** Their agreement is weaker evidence than it looks.
-- **Harmonic and zero temperature only.** No anharmonic or finite-temperature effects.
-- **Prior work not fully reviewed.** I have not read Seifert, Enyashin and Heine (2005) in full, so I cannot rule out that it addressed stability with an earlier method.
-
-The claim this supports: *a general-purpose machine-learned potential, at three sizes, finds no dynamical instability in C28 hyperdiamond.* It is a lead, not a confirmed result.
+  No single model gets both right, and they place hyperdiamond's highest mode near 1200 cm⁻¹ where DFT gives 1504 cm⁻¹.
+- **Three sizes of one model family are not three independent methods.**
+- **One functional, one set of settings.** PBE with a 45 Ry cutoff and a 2×2×2 k-point mesh. No convergence study, no van der Waals correction, no second functional.
+- **Harmonic and short.** The phonons are harmonic at zero temperature. The molecular dynamics covers 3 ps in a 56-atom cell, which can show that a structure does not fall apart at once, not that it survives for long.
+- **Stable does not mean makeable.** The structure is 0.57 eV per atom above diamond, and nobody knows how to assemble oriented C28 cages.
+- **Prior work not fully reviewed.** I have not read Seifert, Enyashin and Heine (2005) in full. Its abstract lists structures, energies, electronic spectra and bulk moduli, not phonons, but I cannot rule out that stability was addressed there or elsewhere.
 
 ## Status and next step
 
-A DFT calculation (Quantum ESPRESSO, PBE) of the relaxed 56-atom cell and its zone-centre phonons is in progress, to test the soft mode directly. Results will be added to this repository.
+Done: DFT relaxation and zone-centre phonons, machine-learned phonons across the zone, soft-mode analysis, elastic constants, molecular dynamics.
+
+Next: the same screening for two related structures (hyperlonsdaleite, and the C28-plus-carbon solid that Zeger et al. found lower in energy), and a full read of the earlier literature.
 
 ## Method
 
@@ -60,6 +109,8 @@ A DFT calculation (Quantum ESPRESSO, PBE) of the relaxed 56-atom cell and its zo
 2. **Relaxation.** Cell and atoms relaxed together (ASE BFGS with a Frechet cell filter) to forces below 0.005 eV/Å.
 3. **Phonons.** Finite displacements of 0.01 Å with phonopy: 10 symmetry-distinct displacements of a 448-atom (2×2×2) or 1512-atom (3×3×3) supercell of the 56-atom primitive cell.
 4. **Control.** The same procedure on diamond, to measure each model's error on a known material.
+5. **DFT.** Quantum ESPRESSO (conda-forge build), PBE, PAW pseudopotential `C.pbe-n-kjpaw_psl.1.0.0`, 45 / 360 Ry cutoffs, 2×2×2 k-points (8×8×8 for diamond). Variable-cell relaxation, then 10 symmetry-distinct displacements of 0.03 Å in the primitive cell. It runs on GitHub Actions; see `.github/workflows/dft.yml` and `dft/`.
+6. **Soft mode, elastic constants, molecular dynamics.** `hyperdiamond-stability/extras.py`. Elastic constants from strains of ±0.5% with atoms relaxed at each strain. Molecular dynamics with a Langevin thermostat and a 1 fs step.
 
 ## Reproduce
 
@@ -87,6 +138,11 @@ python stability.py hyper --supercell 3 --tag hyper_medium_sc3
 | `hyperdiamond-stability/*_relaxed.cif` | Relaxed structures |
 | `hyperdiamond-stability/*_phonopy.yaml` | Displacements and forces, enough to rebuild the force constants |
 | `hyperdiamond-stability/*_phonon_bands.png` | Phonon band plots |
+| `hyperdiamond-stability/extras.py` | Soft-mode analysis, elastic constants, molecular dynamics |
+| `hyperdiamond-stability/softmode_result.json`, `elastic_result.json`, `md_*_result.json` | Their results |
+| `hyperdiamond-stability/build_structures.py`, `c28c.cif`, `hyperlonsdaleite.cif` | Starting structures for the two related solids (not yet screened) |
+| `dft/dft.py`, `dft/ci.sh`, `.github/workflows/dft.yml` | The DFT calculation and the workflow that runs it |
+| `dft/results/` | DFT-relaxed structures, forces and phonon results |
 
 Runs without a suffix used the medium model and a 2×2×2 supercell.
 

@@ -1,0 +1,25 @@
+{
+ "model": "MACE-MP-0 medium",
+ "diamond": {
+  "C11_GPa": 823.2,
+  "C12_GPa": 253.6,
+  "C44_GPa": 243.6,
+  "bulk_modulus_GPa": 443.4,
+  "born_stable": true,
+  "seconds": 1.5
+ },
+ "hyperdiamond": {
+  "C11_GPa": 44.4,
+  "C12_GPa": 9.4,
+  "C44_GPa": 13.5,
+  "bulk_modulus_GPa": 21.0,
+  "born_stable": true,
+  "seconds": 49.9
+ },
+ "diamond_experiment": {
+  "C11_GPa": 1079,
+  "C12_GPa": 124,
+  "C44_GPa": 578,
+  "bulk_modulus_GPa": 443
+ }
+}

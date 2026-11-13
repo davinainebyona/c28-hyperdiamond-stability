@@ -1,0 +1,111 @@
+{
+ "cages": [
+  28,
+  28
+ ],
+ "n_apex": 8,
+ "modes": [
+  {
+   "freq_THz": 0.868,
+   "cages": [
+    {
+     "translation_frac": 0.0,
+     "rotation_frac": 0.499,
+     "internal_frac": 0.001
+    },
+    {
+     "translation_frac": 0.0,
+     "rotation_frac": 0.499,
+     "internal_frac": 0.001
+    }
+   ],
+   "cage_translations_antiparallel": false,
+   "apex_share_of_motion": 0.182
+  },
+  {
+   "freq_THz": 0.868,
+   "cages": [
+    {
+     "translation_frac": 0.0,
+     "rotation_frac": 0.499,
+     "internal_frac": 0.001
+    },
+    {
+     "translation_frac": 0.0,
+     "rotation_frac": 0.499,
+     "internal_frac": 0.001
+    }
+   ],
+   "cage_translations_antiparallel": false,
+   "apex_share_of_motion": 0.182
+  },
+  {
+   "freq_THz": 0.868,
+   "cages": [
+    {
+     "translation_frac": 0.0,
+     "rotation_frac": 0.499,
+     "internal_frac": 0.001
+    },
+    {
+     "translation_frac": 0.0,
+     "rotation_frac": 0.499,
+     "internal_frac": 0.001
+    }
+   ],
+   "cage_translations_antiparallel": false,
+   "apex_share_of_motion": 0.182
+  },
+  {
+   "freq_THz": 4.187,
+   "cages": [
+    {
+     "translation_frac": 0.448,
+     "rotation_frac": 0.0,
+     "internal_frac": 0.052
+    },
+    {
+     "translation_frac": 0.448,
+     "rotation_frac": 0.0,
+     "internal_frac": 0.052
+    }
+   ],
+   "cage_translations_antiparallel": true,
+   "apex_share_of_motion": 0.063
+  },
+  {
+   "freq_THz": 4.187,
+   "cages": [
+    {
+     "translation_frac": 0.448,
+     "rotation_frac": 0.0,
+     "internal_frac": 0.052
+    },
+    {
+     "translation_frac": 0.448,
+     "rotation_frac": 0.0,
+     "internal_frac": 0.052
+    }
+   ],
+   "cage_translations_antiparallel": true,
+   "apex_share_of_motion": 0.063
+  },
+  {
+   "freq_THz": 4.187,
+   "cages": [
+    {
+     "translation_frac": 0.448,
+     "rotation_frac": 0.0,
+     "internal_frac": 0.052
+    },
+    {
+     "translation_frac": 0.448,
+     "rotation_frac": 0.0,
+     "internal_frac": 0.052
+    }
+   ],
+   "cage_translations_antiparallel": true,
+   "apex_share_of_motion": 0.063
+  }
+ ]
+}

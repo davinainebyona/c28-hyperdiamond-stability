@@ -1,0 +1,495 @@
+{
+ "model": "MACE-MP-0 medium",
+ "temperature_K": 1500.0,
+ "steps": 3000,
+ "timestep_fs": 1.0,
+ "atoms": 56,
+ "max_bonds_broken_at_any_sample": 2,
+ "max_new_bonds_at_any_sample": 0,
+ "longest_original_bond_seen_A": 1.985,
+ "mean_T_second_half_K": 1431.0,
+ "max_time_averaged_displacement_A": 0.254,
+ "network_intact": false,
+ "trace": [
+  {
+   "step": 50,
+   "T_K": 1032.8,
+   "E_pot_eV_per_atom": -8.3342,
+   "bonds_broken": 0,
+   "bonds_new": 0,
+   "longest_original_bond_A": 1.8
+  },
+  {
+   "step": 100,
+   "T_K": 1374.5,
+   "E_pot_eV_per_atom": -8.3273,
+   "bonds_broken": 0,
+   "bonds_new": 0,
+   "longest_original_bond_A": 1.731
+  },
+  {
+   "step": 150,
+   "T_K": 1291.3,
+   "E_pot_eV_per_atom": -8.2939,
+   "bonds_broken": 0,
+   "bonds_new": 0,
+   "longest_original_bond_A": 1.804
+  },
+  {
+   "step": 200,
+   "T_K": 1230.7,
+   "E_pot_eV_per_atom": -8.3265,
+   "bonds_broken": 0,
+   "bonds_new": 0,
+   "longest_original_bond_A": 1.814
+  },
+  {
+   "step": 250,
+   "T_K": 1434.9,
+   "E_pot_eV_per_atom": -8.3279,
+   "bonds_broken": 0,
+   "bonds_new": 0,
+   "longest_original_bond_A": 1.782
+  },
+  {
+   "step": 300,
+   "T_K": 1333.0,
+   "E_pot_eV_per_atom": -8.3014,
+   "bonds_broken": 0,
+   "bonds_new": 0,
+   "longest_original_bond_A": 1.814
+  },
+  {
+   "step": 350,
+   "T_K": 1320.0,
+   "E_pot_eV_per_atom": -8.2983,
+   "bonds_broken": 0,
+   "bonds_new": 0,
+   "longest_original_bond_A": 1.763
+  },
+  {
+   "step": 400,
+   "T_K": 1551.2,
+   "E_pot_eV_per_atom": -8.3104,
+   "bonds_broken": 0,
+   "bonds_new": 0,
+   "longest_original_bond_A": 1.889
+  },
+  {
+   "step": 450,
+   "T_K": 1348.7,
+   "E_pot_eV_per_atom": -8.2666,
+   "bonds_broken": 0,
+   "bonds_new": 0,
+   "longest_original_bond_A": 1.862
+  },
+  {
+   "step": 500,
+   "T_K": 1625.6,
+   "E_pot_eV_per_atom": -8.2892,
+   "bonds_broken": 0,
+   "bonds_new": 0,
+   "longest_original_bond_A": 1.795
+  },
+  {
+   "step": 550,
+   "T_K": 1502.1,
+   "E_pot_eV_per_atom": -8.2715,
+   "bonds_broken": 0,
+   "bonds_new": 0,
+   "longest_original_bond_A": 1.776
+  },
+  {
+   "step": 600,
+   "T_K": 1525.7,
+   "E_pot_eV_per_atom": -8.2871,
+   "bonds_broken": 1,
+   "bonds_new": 0,
+   "longest_original_bond_A": 1.906
+  },
+  {
+   "step": 650,
+   "T_K": 1599.6,
+   "E_pot_eV_per_atom": -8.298,
+   "bonds_broken": 1,
+   "bonds_new": 0,
+   "longest_original_bond_A": 1.935
+  },
+  {
+   "step": 700,
+   "T_K": 1460.2,
+   "E_pot_eV_per_atom": -8.2867,
+   "bonds_broken": 0,
+   "bonds_new": 0,
+   "longest_original_bond_A": 1.796
+  },
+  {
+   "step": 750,
+   "T_K": 1640.7,
+   "E_pot_eV_per_atom": -8.3155,
+   "bonds_broken": 0,
+   "bonds_new": 0,
+   "longest_original_bond_A": 1.751
+  },
+  {
+   "step": 800,
+   "T_K": 1228.2,
+   "E_pot_eV_per_atom": -8.2866,
+   "bonds_broken": 0,
+   "bonds_new": 0,
+   "longest_original_bond_A": 1.793
+  },
+  {
+   "step": 850,
+   "T_K": 1447.3,
+   "E_pot_eV_per_atom": -8.3153,
+   "bonds_broken": 0,
+   "bonds_new": 0,
+   "longest_original_bond_A": 1.721
+  },
+  {
+   "step": 900,
+   "T_K": 1187.6,
+   "E_pot_eV_per_atom": -8.2866,
+   "bonds_broken": 0,
+   "bonds_new": 0,
+   "longest_original_bond_A": 1.749
+  },
+  {
+   "step": 950,
+   "T_K": 1568.9,
+   "E_pot_eV_per_atom": -8.3219,
+   "bonds_broken": 0,
+   "bonds_new": 0,
+   "longest_original_bond_A": 1.747
+  },
+  {
+   "step": 1000,
+   "T_K": 1526.2,
+   "E_pot_eV_per_atom": -8.3045,
+   "bonds_broken": 0,
+   "bonds_new": 0,
+   "longest_original_bond_A": 1.728
+  },
+  {
+   "step": 1050,
+   "T_K": 1551.0,
+   "E_pot_eV_per_atom": -8.3109,
+   "bonds_broken": 0,
+   "bonds_new": 0,
+   "longest_original_bond_A": 1.7
+  },
+  {
+   "step": 1100,
+   "T_K": 1615.4,
+   "E_pot_eV_per_atom": -8.3142,
+   "bonds_broken": 0,
+   "bonds_new": 0,
+   "longest_original_bond_A": 1.889
+  },
+  {
+   "step": 1150,
+   "T_K": 1450.8,
+   "E_pot_eV_per_atom": -8.3139,
+   "bonds_broken": 0,
+   "bonds_new": 0,
+   "longest_original_bond_A": 1.793
+  },
+  {
+   "step": 1200,
+   "T_K": 1360.4,
+   "E_pot_eV_per_atom": -8.312,
+   "bonds_broken": 0,
+   "bonds_new": 0,
+   "longest_original_bond_A": 1.799
+  },
+  {
+   "step": 1250,
+   "T_K": 1348.4,
+   "E_pot_eV_per_atom": -8.3506,
+   "bonds_broken": 0,
+   "bonds_new": 0,
+   "longest_original_bond_A": 1.798
+  },
+  {
+   "step": 1300,
+   "T_K": 1298.3,
+   "E_pot_eV_per_atom": -8.3342,
+   "bonds_broken": 0,
+   "bonds_new": 0,
+   "longest_original_bond_A": 1.822
+  },
+  {
+   "step": 1350,
+   "T_K": 1452.8,
+   "E_pot_eV_per_atom": -8.3151,
+   "bonds_broken": 0,
+   "bonds_new": 0,
+   "longest_original_bond_A": 1.826
+  },
+  {
+   "step": 1400,
+   "T_K": 1326.9,
+   "E_pot_eV_per_atom": -8.306,
+   "bonds_broken": 0,
+   "bonds_new": 0,
+   "longest_original_bond_A": 1.81
+  },
+  {
+   "step": 1450,
+   "T_K": 1494.7,
+   "E_pot_eV_per_atom": -8.3093,
+   "bonds_broken": 0,
+   "bonds_new": 0,
+   "longest_original_bond_A": 1.793
+  },
+  {
+   "step": 1500,
+   "T_K": 1365.1,
+   "E_pot_eV_per_atom": -8.3149,
+   "bonds_broken": 0,
+   "bonds_new": 0,
+   "longest_original_bond_A": 1.834
+  },
+  {
+   "step": 1550,
+   "T_K": 1315.5,
+   "E_pot_eV_per_atom": -8.3186,
+   "bonds_broken": 1,
+   "bonds_new": 0,
+   "longest_original_bond_A": 1.919
+  },
+  {
+   "step": 1600,
+   "T_K": 1331.8,
+   "E_pot_eV_per_atom": -8.28,
+   "bonds_broken": 0,
+   "bonds_new": 0,
+   "longest_original_bond_A": 1.873
+  },
+  {
+   "step": 1650,
+   "T_K": 1574.1,
+   "E_pot_eV_per_atom": -8.3064,
+   "bonds_broken": 0,
+   "bonds_new": 0,
+   "longest_original_bond_A": 1.871
+  },
+  {
+   "step": 1700,
+   "T_K": 1519.9,
+   "E_pot_eV_per_atom": -8.3055,
+   "bonds_broken": 0,
+   "bonds_new": 0,
+   "longest_original_bond_A": 1.795
+  },
+  {
+   "step": 1750,
+   "T_K": 1636.6,
+   "E_pot_eV_per_atom": -8.3313,
+   "bonds_broken": 1,
+   "bonds_new": 0,
+   "longest_original_bond_A": 1.909
+  },
+  {
+   "step": 1800,
+   "T_K": 1212.2,
+   "E_pot_eV_per_atom": -8.3001,
+   "bonds_broken": 0,
+   "bonds_new": 0,
+   "longest_original_bond_A": 1.811
+  },
+  {
+   "step": 1850,
+   "T_K": 1559.2,
+   "E_pot_eV_per_atom": -8.3153,
+   "bonds_broken": 0,
+   "bonds_new": 0,
+   "longest_original_bond_A": 1.828
+  },
+  {
+   "step": 1900,
+   "T_K": 1288.2,
+   "E_pot_eV_per_atom": -8.3224,
+   "bonds_broken": 0,
+   "bonds_new": 0,
+   "longest_original_bond_A": 1.746
+  },
+  {
+   "step": 1950,
+   "T_K": 1578.1,
+   "E_pot_eV_per_atom": -8.3329,
+   "bonds_broken": 0,
+   "bonds_new": 0,
+   "longest_original_bond_A": 1.8
+  },
+  {
+   "step": 2000,
+   "T_K": 1408.3,
+   "E_pot_eV_per_atom": -8.2922,
+   "bonds_broken": 0,
+   "bonds_new": 0,
+   "longest_original_bond_A": 1.755
+  },
+  {
+   "step": 2050,
+   "T_K": 1409.7,
+   "E_pot_eV_per_atom": -8.3035,
+   "bonds_broken": 0,
+   "bonds_new": 0,
+   "longest_original_bond_A": 1.855
+  },
+  {
+   "step": 2100,
+   "T_K": 1369.7,
+   "E_pot_eV_per_atom": -8.2879,
+   "bonds_broken": 0,
+   "bonds_new": 0,
+   "longest_original_bond_A": 1.792
+  },
+  {
+   "step": 2150,
+   "T_K": 1424.6,
+   "E_pot_eV_per_atom": -8.2805,
+   "bonds_broken": 2,
+   "bonds_new": 0,
+   "longest_original_bond_A": 1.932
+  },
+  {
+   "step": 2200,
+   "T_K": 1295.3,
+   "E_pot_eV_per_atom": -8.298,
+   "bonds_broken": 0,
+   "bonds_new": 0,
+   "longest_original_bond_A": 1.836
+  },
+  {
+   "step": 2250,
+   "T_K": 1195.3,
+   "E_pot_eV_per_atom": -8.3031,
+   "bonds_broken": 0,
+   "bonds_new": 0,
+   "longest_original_bond_A": 1.826
+  },
+  {
+   "step": 2300,
+   "T_K": 1189.9,
+   "E_pot_eV_per_atom": -8.3074,
+   "bonds_broken": 0,
+   "bonds_new": 0,
+   "longest_original_bond_A": 1.774
+  },
+  {
+   "step": 2350,
+   "T_K": 1243.9,
+   "E_pot_eV_per_atom": -8.3208,
+   "bonds_broken": 0,
+   "bonds_new": 0,
+   "longest_original_bond_A": 1.806
+  },
+  {
+   "step": 2400,
+   "T_K": 1330.5,
+   "E_pot_eV_per_atom": -8.3089,
+   "bonds_broken": 0,
+   "bonds_new": 0,
+   "longest_original_bond_A": 1.782
+  },
+  {
+   "step": 2450,
+   "T_K": 1445.8,
+   "E_pot_eV_per_atom": -8.3157,
+   "bonds_broken": 0,
+   "bonds_new": 0,
+   "longest_original_bond_A": 1.789
+  },
+  {
+   "step": 2500,
+   "T_K": 1498.3,
+   "E_pot_eV_per_atom": -8.3003,
+   "bonds_broken": 0,
+   "bonds_new": 0,
+   "longest_original_bond_A": 1.767
+  },
+  {
+   "step": 2550,
+   "T_K": 1518.1,
+   "E_pot_eV_per_atom": -8.3308,
+   "bonds_broken": 0,
+   "bonds_new": 0,
+   "longest_original_bond_A": 1.795
+  },
+  {
+   "step": 2600,
+   "T_K": 1504.0,
+   "E_pot_eV_per_atom": -8.3127,
+   "bonds_broken": 0,
+   "bonds_new": 0,
+   "longest_original_bond_A": 1.738
+  },
+  {
+   "step": 2650,
+   "T_K": 1640.0,
+   "E_pot_eV_per_atom": -8.3229,
+   "bonds_broken": 0,
+   "bonds_new": 0,
+   "longest_original_bond_A": 1.748
+  },
+  {
+   "step": 2700,
+   "T_K": 1476.0,
+   "E_pot_eV_per_atom": -8.3297,
+   "bonds_broken": 0,
+   "bonds_new": 0,
+   "longest_original_bond_A": 1.742
+  },
+  {
+   "step": 2750,
+   "T_K": 1268.2,
+   "E_pot_eV_per_atom": -8.2803,
+   "bonds_broken": 2,
+   "bonds_new": 0,
+   "longest_original_bond_A": 1.985
+  },
+  {
+   "step": 2800,
+   "T_K": 1549.8,
+   "E_pot_eV_per_atom": -8.2757,
+   "bonds_broken": 0,
+   "bonds_new": 0,
+   "longest_original_bond_A": 1.771
+  },
+  {
+   "step": 2850,
+   "T_K": 1550.5,
+   "E_pot_eV_per_atom": -8.2914,
+   "bonds_broken": 0,
+   "bonds_new": 0,
+   "longest_original_bond_A": 1.801
+  },
+  {
+   "step": 2900,
+   "T_K": 1681.6,
+   "E_pot_eV_per_atom": -8.2886,
+   "bonds_broken": 0,
+   "bonds_new": 0,
+   "longest_original_bond_A": 1.842
+  },
+  {
+   "step": 2950,
+   "T_K": 1435.9,
+   "E_pot_eV_per_atom": -8.2522,
+   "bonds_broken": 1,
+   "bonds_new": 0,
+   "longest_original_bond_A": 1.901
+  },
+  {
+   "step": 3000,
+   "T_K": 1478.5,
+   "E_pot_eV_per_atom": -8.2902,
+   "bonds_broken": 0,
+   "bonds_new": 0,
+   "longest_original_bond_A": 1.818
+  }
+ ]
+}
