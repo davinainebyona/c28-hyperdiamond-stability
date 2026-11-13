@@ -1,6 +1,6 @@
      negative rho (up, down):  2.924E-04 0.000E+00
 
-     total cpu time spent up to now is      511.8 secs
+     total cpu time spent up to now is      614.7 secs
 
      End of self-consistent calculation
 
@@ -113,8 +113,8 @@
      estimated scf accuracy    <          1.1E-12 Ry
 
      The total energy is the sum of the following terms:
-     one-electron contribution =   -2109.16762254 Ry
-     hartree contribution      =    1123.52355532 Ry
+     one-electron contribution =   -2109.16762252 Ry
+     hartree contribution      =    1123.52355530 Ry
      xc contribution           =    -258.21384910 Ry
      ewald contribution        =     559.25199747 Ry
      one-center paw contrib.   =    -345.32675777 Ry
@@ -136,11 +136,11 @@
      atom    9 type  1   force =     0.00007399   -0.00003306    0.00012973
      atom   10 type  1   force =     0.00012973   -0.00003306    0.00007399
      atom   11 type  1   force =    -0.00010138    0.00026785    0.00033371
-     atom   12 type  1   force =     0.00070894    0.00106050    0.00123279
-     atom   13 type  1   force =    -0.00016770   -0.00024128   -0.00045905
+     atom   12 type  1   force =     0.00070894    0.00106050    0.00123278
+     atom   13 type  1   force =    -0.00016770   -0.00024128   -0.00045906
      atom   14 type  1   force =     0.00033371    0.00026785   -0.00010138
-     atom   15 type  1   force =     0.00123279    0.00106050    0.00070894
-     atom   16 type  1   force =    -0.00045905   -0.00024128   -0.00016770
+     atom   15 type  1   force =     0.00123278    0.00106050    0.00070894
+     atom   16 type  1   force =    -0.00045906   -0.00024128   -0.00016770
      atom   17 type  1   force =    -0.00007294    0.00001205   -0.00001372
      atom   18 type  1   force =    -0.00001372    0.00001205   -0.00007294
      atom   19 type  1   force =     0.00940280    0.00337447   -0.00060926
@@ -153,7 +153,7 @@
      atom   26 type  1   force =     0.00015070   -0.00016103   -0.00017143
      atom   27 type  1   force =     0.00030519   -0.00013034    0.00030519
      atom   28 type  1   force =    -0.00047706    0.00072709   -0.00047706
-     atom   29 type  1   force =    -0.00059042    0.00231752   -0.00059042
+     atom   29 type  1   force =    -0.00059041    0.00231752   -0.00059041
      atom   30 type  1   force =     0.00001707    0.00000666    0.00001707
      atom   31 type  1   force =     0.00015924    0.00005635    0.00001658
      atom   32 type  1   force =     0.00001658    0.00005635    0.00015924
@@ -161,8 +161,8 @@
      atom   34 type  1   force =    -0.00001000    0.00005465   -0.00010128
      atom   35 type  1   force =    -0.00010128    0.00005465   -0.00001000
      atom   36 type  1   force =     0.00005667    0.00004993    0.00005667
-     atom   37 type  1   force =    -0.00004249   -0.00003295    0.00002742
-     atom   38 type  1   force =     0.00002742   -0.00003295   -0.00004249
+     atom   37 type  1   force =    -0.00004249   -0.00003295    0.00002741
+     atom   38 type  1   force =     0.00002741   -0.00003295   -0.00004249
      atom   39 type  1   force =     0.00005470    0.00001033    0.00003809
      atom   40 type  1   force =    -0.00002592    0.00006173   -0.00003246
      atom   41 type  1   force =     0.00007296   -0.00001990    0.00000618
@@ -171,9 +171,9 @@
      atom   44 type  1   force =     0.00000618   -0.00001990    0.00007296
      atom   45 type  1   force =    -0.00000417    0.00002870   -0.00005980
      atom   46 type  1   force =    -0.00005980    0.00002870   -0.00000417
-     atom   47 type  1   force =    -0.00007017    0.00007457    0.00001280
+     atom   47 type  1   force =    -0.00007017    0.00007457    0.00001281
      atom   48 type  1   force =    -0.00004523   -0.00004247    0.00005792
-     atom   49 type  1   force =     0.00001280    0.00007457   -0.00007017
+     atom   49 type  1   force =     0.00001281    0.00007457   -0.00007017
      atom   50 type  1   force =     0.00005792   -0.00004247   -0.00004523
      atom   51 type  1   force =    -0.00004501    0.00001053   -0.00002196
      atom   52 type  1   force =    -0.00000330    0.00002217   -0.00001395
@@ -198,52 +198,52 @@
      Writing all to output data dir ./tmp_hyper_disp4/hyper_disp4.save/ :
      XML data file, charge density, pseudopotentials, collected wavefunctions
 
-     init_run     :     15.25s CPU     16.44s WALL (       1 calls)
-     electrons    :    463.46s CPU    495.28s WALL (       1 calls)
-     forces       :      6.86s CPU      7.42s WALL (       1 calls)
-     stress       :     19.27s CPU     20.26s WALL (       1 calls)
+     init_run     :     18.21s CPU     20.07s WALL (       1 calls)
+     electrons    :    552.72s CPU    594.55s WALL (       1 calls)
+     forces       :      7.67s CPU      8.36s WALL (       1 calls)
+     stress       :     20.30s CPU     21.51s WALL (       1 calls)
 
      Called by init_run:
-     wfcinit      :     13.15s CPU     13.99s WALL (       1 calls)
-     potinit      :      1.30s CPU      1.42s WALL (       1 calls)
-     hinit0       :      0.29s CPU      0.33s WALL (       1 calls)
+     wfcinit      :     15.76s CPU     17.18s WALL (       1 calls)
+     potinit      :      1.51s CPU      1.67s WALL (       1 calls)
+     hinit0       :      0.31s CPU      0.35s WALL (       1 calls)
 
      Called by electrons:
-     c_bands      :    388.66s CPU    410.40s WALL (      19 calls)
-     sum_band     :     50.88s CPU     56.56s WALL (      19 calls)
-     v_of_rho     :      6.88s CPU      7.91s WALL (      20 calls)
-     newd         :      5.32s CPU      8.37s WALL (      20 calls)
-     PAW_pot      :     11.26s CPU     11.64s WALL (      20 calls)
-     mix_rho      :      0.98s CPU      1.05s WALL (      19 calls)
+     c_bands      :    461.88s CPU    491.53s WALL (      19 calls)
+     sum_band     :     62.12s CPU     68.92s WALL (      19 calls)
+     v_of_rho     :      7.90s CPU      9.24s WALL (      20 calls)
+     newd         :      6.54s CPU     10.50s WALL (      20 calls)
+     PAW_pot      :     13.85s CPU     14.07s WALL (      20 calls)
+     mix_rho      :      1.12s CPU      1.20s WALL (      19 calls)
 
      Called by c_bands:
-     init_us_2    :      5.36s CPU      5.45s WALL (     246 calls)
-     cegterg      :    379.07s CPU    400.48s WALL (     114 calls)
+     init_us_2    :      6.16s CPU      6.26s WALL (     246 calls)
+     cegterg      :    450.95s CPU    480.26s WALL (     114 calls)
 
      Called by *egterg:
-     cdiaghg      :      7.40s CPU      7.58s WALL (     597 calls)
-     h_psi        :    242.77s CPU    258.19s WALL (     603 calls)
-     s_psi        :     44.62s CPU     45.08s WALL (     603 calls)
-     g_psi        :      1.89s CPU      1.91s WALL (     483 calls)
+     cdiaghg      :      8.93s CPU      9.09s WALL (     598 calls)
+     h_psi        :    298.23s CPU    320.34s WALL (     604 calls)
+     s_psi        :     51.43s CPU     52.04s WALL (     604 calls)
+     g_psi        :      2.02s CPU      2.04s WALL (     484 calls)
 
      Called by h_psi:
-     h_psi:calbec :     49.33s CPU     50.73s WALL (     603 calls)
-     vloc_psi     :    147.32s CPU    159.31s WALL (     603 calls)
-     add_vuspsi   :     45.18s CPU     45.74s WALL (     603 calls)
+     h_psi:calbec :     52.99s CPU     54.96s WALL (     604 calls)
+     vloc_psi     :    192.78s CPU    210.28s WALL (     604 calls)
+     add_vuspsi   :     51.59s CPU     52.28s WALL (     604 calls)
 
      General routines
-     calbec       :     80.39s CPU     82.51s WALL (     819 calls)
-     fft          :      4.99s CPU      5.67s WALL (     283 calls)
-     ffts         :      0.50s CPU      0.52s WALL (      39 calls)
-     fftw         :    154.62s CPU    167.80s WALL (   86012 calls)
-     interpolate  :      0.84s CPU      0.89s WALL (      20 calls)
+     calbec       :     86.81s CPU     89.85s WALL (     820 calls)
+     fft          :      5.57s CPU      6.38s WALL (     283 calls)
+     ffts         :      0.54s CPU      0.58s WALL (      39 calls)
+     fftw         :    201.94s CPU    220.09s WALL (   86014 calls)
+     interpolate  :      0.92s CPU      0.98s WALL (      20 calls)
 
      Parallel routines
 
-     PWSCF        :   8m24.99s CPU   8m59.84s WALL
+     PWSCF        :   9m59.11s CPU  10m44.98s WALL
 
 
-   This run was terminated on:   0: 8:43  13Nov2026            
+   This run was terminated on:   6:35:52  13Nov2026            
 
 =------------------------------------------------------------------------------=
    JOB DONE.
