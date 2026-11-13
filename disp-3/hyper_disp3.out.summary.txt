@@ -1,0 +1,6 @@
+     number of k points=     8
+!    total energy              =   -1029.93186299 Ry
+     convergence has been achieved in  20 iterations
+     Total force =     0.065017     Total SCF correction =     0.000003
+          total   stress  (Ry/bohr**3)                   (kbar)     P=        0.52
+     PWSCF        :  11m25.05s CPU  12m10.48s WALL
