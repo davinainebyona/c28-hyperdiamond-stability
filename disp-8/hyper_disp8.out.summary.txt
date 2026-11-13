@@ -3,4 +3,4 @@
      convergence has been achieved in  19 iterations
      Total force =     0.044978     Total SCF correction =     0.000006
           total   stress  (Ry/bohr**3)                   (kbar)     P=       -0.58
-     PWSCF        :  13m 2.53s CPU  13m52.39s WALL
+     PWSCF        :  12m28.34s CPU  13m31.44s WALL
