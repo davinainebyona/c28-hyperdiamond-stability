@@ -79,6 +79,24 @@ The potential gets diamond's bulk modulus right but its shear constants badly wr
 
 At 1500 K, single bonds stretched past 1.9 Å in 7 of 60 snapshots and returned each time. The bond network was the same at the end as at the start.
 
+### Related structures (MACE-MP-0 medium, screening only)
+
+The same relaxation and phonon test on two relatives of hyperdiamond. Neither has been checked with DFT here.
+
+| | C28 hyperdiamond | Hyperlonsdaleite | C28C |
+|---|---|---|---|
+| What it is | Cages on the diamond lattice | Cages on the hexagonal-diamond lattice | Cages alternating with single carbon atoms (zincblende) |
+| Symmetry after relaxation | Fd-3m | P6₃/mmc | F-43m |
+| Cell | a = 15.945 Å | a = 11.284 Å, c = 18.490 Å | a = 9.742 Å |
+| Energy above diamond (eV/atom) | 0.580 | 0.584 | 0.428 |
+| Density (g/cm³) | 1.10 | 1.10 | 2.50 |
+| Softest optical mode at Γ (THz) | 0.87 | 0.22 | 8.89 |
+| Imaginary modes | none | none | none |
+| Phonon supercell | 2×2×2, 448 atoms | 2×2×1, 448 atoms | 3×3×3, 783 atoms |
+
+- **Hyperlonsdaleite** is almost equal in energy to hyperdiamond, 4 meV per atom higher. Seifert et al. (2005) reported the two phases as nearly isoenergetic. Its softest mode is very low, 0.22 THz, and the potential underestimated the corresponding hyperdiamond mode by a factor of two against DFT, so this one in particular needs a DFT check before anything is claimed.
+- **C28C** comes out lower in energy than hyperdiamond, as Zeger et al. (1995) found with LDA (0.453 against 0.744 eV/atom there). On relaxation it forms six extra bonds of 1.59 Å between neighbouring cages; the 1995 paper reported the same bonds at 1.64 Å. It has no soft cage-rotation mode, because those extra bonds lock the cages in place.
+
 ## What this is not
 
 - **The DFT phonons cover the zone centre only.** They were computed in the 56-atom primitive cell, so they test the Γ point. Stability away from Γ rests on the machine-learned potential. A full DFT dispersion needs a 448-atom supercell, which is beyond the free computing used here.
@@ -101,7 +119,9 @@ At 1500 K, single bonds stretched past 1.9 Å in 7 of 60 snapshots and returned 
 
 Done: DFT relaxation and zone-centre phonons, machine-learned phonons across the zone, soft-mode analysis, elastic constants, molecular dynamics.
 
-Next: the same screening for two related structures (hyperlonsdaleite, and the C28-plus-carbon solid that Zeger et al. found lower in energy), and a full read of the earlier literature.
+Also done at screening level: hyperlonsdaleite and C28C.
+
+Next: a DFT check of hyperlonsdaleite's very soft mode, and a full read of the earlier literature.
 
 ## Method
 
@@ -124,6 +144,11 @@ python stability.py diamond
 python stability.py hyper
 python stability.py hyper --model large --tag hyper_large
 python stability.py hyper --supercell 3 --tag hyper_medium_sc3
+python stability.py custom --cif c28c.cif --supercell 3 --tag c28c
+python stability.py custom --cif hyperlonsdaleite.cif --supercell 2,2,1 --tag hyperlonsdaleite
+python extras.py softmode
+python extras.py elastic
+python extras.py md --temp 1500
 ```
 
 ## Files
@@ -140,7 +165,8 @@ python stability.py hyper --supercell 3 --tag hyper_medium_sc3
 | `hyperdiamond-stability/*_phonon_bands.png` | Phonon band plots |
 | `hyperdiamond-stability/extras.py` | Soft-mode analysis, elastic constants, molecular dynamics |
 | `hyperdiamond-stability/softmode_result.json`, `elastic_result.json`, `md_*_result.json` | Their results |
-| `hyperdiamond-stability/build_structures.py`, `c28c.cif`, `hyperlonsdaleite.cif` | Starting structures for the two related solids (not yet screened) |
+| `hyperdiamond-stability/build_structures.py`, `c28c.cif`, `hyperlonsdaleite.cif` | Starting structures for the two related solids |
+| `hyperdiamond-stability/c28c_*`, `hyperlonsdaleite_*` | Their relaxed structures, phonon data and results |
 | `dft/dft.py`, `dft/ci.sh`, `.github/workflows/dft.yml` | The DFT calculation and the workflow that runs it |
 | `dft/results/` | DFT-relaxed structures, forces and phonon results |
 
