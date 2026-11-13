@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Helpers for the GitHub Actions workflow.
 #   ci.sh setup            install Quantum ESPRESSO, Python packages and the pseudopotential
+#   ci.sh sync             fetch results already published to main
 #   ci.sh publish MSG      commit dft/results to main (retrying if another job pushed first)
 #   ci.sh logs NAME        save input files and the tail of each output to the dft-logs branch
 set -u
@@ -21,6 +22,11 @@ case "$1" in
     curl -fsSL -o pseudo/C.pbe-n-kjpaw_psl.1.0.0.UPF https://pseudopotentials.quantum-espresso.org/upf_files/C.pbe-n-kjpaw_psl.1.0.0.UPF
     test "$(wc -c < pseudo/C.pbe-n-kjpaw_psl.1.0.0.UPF)" -gt 100000
     which pw.x mpirun; nproc
+    ;;
+  sync)
+    # pick up results that earlier jobs of this run published to main
+    git -C .. fetch -q origin main && git -C .. checkout -q origin/main -- dft/results || true
+    ls results
     ;;
   publish)
     D=$(mktemp -d)

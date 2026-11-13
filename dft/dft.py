@@ -83,6 +83,9 @@ def bonds(atoms, cutoff=1.75):
 
 
 def relax(name):
+    if os.path.exists(os.path.join(RES, f"{name}_relaxed.json")):
+        print(f"{name}: relaxed structure already published, skipping")
+        return
     a0 = start_structure(name)
     at, text = run_pw(a0, f"{name}_relax", "vc-relax", KPTS[name], 1.0e-9)
     at = Atoms(numbers=at.numbers, cell=at.cell[:], scaled_positions=at.get_scaled_positions(), pbc=True)
@@ -114,6 +117,9 @@ def disp(name, index):
     json.dump({"n_displacements": len(scs)}, open(os.path.join(RES, f"{name}_ndisp.json"), "w"))
     if index >= len(scs):
         print(f"index {index} not needed: only {len(scs)} displacements")
+        return
+    if os.path.exists(os.path.join(RES, f"{name}_forces_{index}.npy")):
+        print(f"forces for displacement {index} already published, skipping")
         return
     sc = scs[index]
     a = Atoms(symbols=sc.symbols, cell=sc.cell, scaled_positions=sc.scaled_positions, pbc=True)

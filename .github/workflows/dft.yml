@@ -2,6 +2,8 @@ name: DFT check (Quantum ESPRESSO)
 
 # Runs the PBE relaxation and zone-centre phonons for diamond (control) and C28 hyperdiamond.
 # Starts when the DFT script or this file changes, or by hand from the Actions tab.
+# Every stage publishes its result to dft/results and is skipped next time if that result exists,
+# so a re-run only repeats what is missing.
 on:
   workflow_dispatch:
   push:
@@ -21,6 +23,7 @@ concurrency:
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   OMP_NUM_THREADS: "1"
+  OMPI_MCA_pml: ob1
 
 jobs:
   diamond:
@@ -52,10 +55,6 @@ jobs:
         run: (while true; do sleep 600; bash dft/ci.sh logs relax-progress; done) &
       - run: cd dft && python dft.py relax hyper
       - run: bash dft/ci.sh publish "DFT - hyperdiamond relaxed structure"
-      - uses: actions/upload-artifact@v4
-        with:
-          name: relaxed
-          path: dft/results/hyper_relaxed.json
       - if: always()
         run: bash dft/ci.sh logs relax
 
@@ -74,16 +73,9 @@ jobs:
         with:
           python-version: "3.12"
       - run: bash dft/ci.sh setup
-      - uses: actions/download-artifact@v4
-        with:
-          name: relaxed
-          path: dft/results
+      - run: bash dft/ci.sh sync
       - run: cd dft && python dft.py disp hyper ${{ matrix.index }}
-      - uses: actions/upload-artifact@v4
-        with:
-          name: forces-${{ matrix.index }}
-          path: dft/results/hyper_forces_*.npy
-          if-no-files-found: ignore
+      - run: bash dft/ci.sh publish "DFT - forces for displacement ${{ matrix.index }}"
       - if: always()
         run: bash dft/ci.sh logs disp-${{ matrix.index }}
 
@@ -98,10 +90,7 @@ jobs:
         with:
           python-version: "3.12"
       - run: bash dft/ci.sh setup
-      - uses: actions/download-artifact@v4
-        with:
-          path: dft/results
-          merge-multiple: true
+      - run: bash dft/ci.sh sync
       - run: cd dft && python dft.py collect hyper
       - run: bash dft/ci.sh publish "DFT - hyperdiamond zone-centre phonons"
       - if: always()
