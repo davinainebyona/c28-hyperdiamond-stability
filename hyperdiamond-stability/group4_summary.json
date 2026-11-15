@@ -1,0 +1,108 @@
+[
+ {
+  "solid": "C28C",
+  "space_group": "F-43m (216)",
+  "a_A": 9.7418,
+  "formation_energy_eV_per_atom_vs_elements": 0.428,
+  "density_g_cm3": 2.503,
+  "cage_to_X_bond_A": [
+   1.523,
+   1.523,
+   1.523,
+   1.523
+  ],
+  "min_freq_mesh_THz": 0.836,
+  "min_freq_bandpath_THz": -0.0,
+  "lowest_optical_gamma_THz": [
+   8.89,
+   8.89,
+   9.601
+  ],
+  "verdict": "no imaginary modes found (dynamically stable at this level of theory)",
+  "bonds_A": {
+   "1.355": 6,
+   "1.52": 24,
+   "1.523": 4,
+   "1.586": 6,
+   "1.598": 12
+  }
+ },
+ {
+  "solid": "C28Si",
+  "space_group": "F-43m (216)",
+  "a_A": 10.6787,
+  "formation_energy_eV_per_atom_vs_elements": 0.585,
+  "density_g_cm3": 1.988,
+  "cage_to_X_bond_A": [
+   1.929,
+   1.929,
+   1.929,
+   1.929
+  ],
+  "min_freq_mesh_THz": 0.337,
+  "min_freq_bandpath_THz": -0.0,
+  "lowest_optical_gamma_THz": [
+   3.386,
+   3.386,
+   3.386
+  ],
+  "verdict": "no imaginary modes found (dynamically stable at this level of theory)",
+  "bonds_A": {
+   "1.416": 24,
+   "1.495": 6,
+   "1.567": 12
+  }
+ },
+ {
+  "solid": "C28Ge",
+  "space_group": "F-43m (216)",
+  "a_A": 10.8506,
+  "formation_energy_eV_per_atom_vs_elements": 0.618,
+  "density_g_cm3": 2.126,
+  "cage_to_X_bond_A": [
+   2.033,
+   2.033,
+   2.033,
+   2.033
+  ],
+  "min_freq_mesh_THz": 0.157,
+  "min_freq_bandpath_THz": -0.0,
+  "lowest_optical_gamma_THz": [
+   3.092,
+   3.092,
+   3.092
+  ],
+  "verdict": "no imaginary modes found (dynamically stable at this level of theory)",
+  "bonds_A": {
+   "1.417": 24,
+   "1.503": 6,
+   "1.547": 12
+  }
+ },
+ {
+  "solid": "C28Sn",
+  "space_group": "F-43m (216)",
+  "a_A": 11.3667,
+  "formation_energy_eV_per_atom_vs_elements": 0.63,
+  "density_g_cm3": 2.058,
+  "cage_to_X_bond_A": [
+   2.274,
+   2.274,
+   2.274,
+   2.274
+  ],
+  "min_freq_mesh_THz": 0.159,
+  "min_freq_bandpath_THz": 0.0,
+  "lowest_optical_gamma_THz": [
+   2.09,
+   2.09,
+   2.09
+  ],
+  "verdict": "no imaginary modes found (dynamically stable at this level of theory)",
+  "bonds_A": {
+   "1.418": 24,
+   "1.516": 6,
+   "1.531": 12
+  }
+ }
+]

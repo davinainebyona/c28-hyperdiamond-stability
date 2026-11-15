@@ -1,0 +1,22 @@
+{
+ "C": {
+  "energy_eV_per_atom": -9.074567273633203,
+  "a_A": 3.5703,
+  "a_measured_A": 3.567
+ },
+ "Si": {
+  "energy_eV_per_atom": -5.342040318592788,
+  "a_A": 5.4555,
+  "a_measured_A": 5.431
+ },
+ "Ge": {
+  "energy_eV_per_atom": -4.525815904128983,
+  "a_A": 5.7732,
+  "a_measured_A": 5.658
+ },
+ "Sn": {
+  "energy_eV_per_atom": -3.9212505038341545,
+  "a_A": 6.6123,
+  "a_measured_A": 6.489
+ }
+}

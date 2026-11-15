@@ -97,6 +97,28 @@ The same relaxation and phonon test on two relatives of hyperdiamond. Neither ha
 - **Hyperlonsdaleite** is almost equal in energy to hyperdiamond, 4 meV per atom higher. Seifert et al. (2005) reported the two phases as nearly isoenergetic. Its softest mode is very low, 0.22 THz, and the potential underestimated the corresponding hyperdiamond mode by a factor of two against DFT, so this one in particular needs a DFT check before anything is claimed.
 - **C28C** comes out lower in energy than hyperdiamond, as Zeger et al. (1995) found with LDA (0.453 against 0.744 eV/atom there). On relaxation it forms six extra bonds of 1.59 Å between neighbouring cages; the 1995 paper reported the same bonds at 1.64 Å. It has no soft cage-rotation mode, because those extra bonds lock the cages in place.
 
+### C28 with silicon, germanium or tin (MACE-MP-0 medium, screening only)
+
+Zeger et al. (1995) suggested that solids like C28C, with the single carbon replaced by another group-IV atom, "would be equally stable, and with similar electronic properties", without calculating them. The same relaxation and phonon test:
+
+| | C28C | C28Si | C28Ge | C28Sn |
+|---|---|---|---|---|
+| Symmetry after relaxation | F-43m | F-43m | F-43m | F-43m |
+| Cell edge (Å) | 9.74 | 10.68 | 10.85 | 11.37 |
+| Cage-to-atom bond (Å) | 1.52 | 1.93 | 2.03 | 2.27 |
+| Energy above its elements (eV/atom) | 0.43 | 0.59 | 0.62 | 0.63 |
+| Density (g/cm³) | 2.50 | 1.99 | 2.13 | 2.06 |
+| Softest optical mode at Γ (THz) | 8.89 | 3.39 | 3.09 | 2.09 |
+| Extra bonds between cages | 6 | none | none | none |
+| Imaginary modes | none | none | none | none |
+| Phonon supercell | 3×3×3, 783 atoms | 2×2×2, 232 atoms | 2×2×2, 232 atoms | 3×3×3, 783 atoms |
+
+- All three keep their symmetry and show no imaginary modes, so they are dynamically stable at this level.
+- They are not equally stable in energy: each sits 0.16 to 0.20 eV per atom higher than C28C, measured against the elements in their diamond structures.
+- C28C is the only one in which neighbouring cages bond to each other. With a larger atom between them the cages are too far apart, and the soft cage-rocking mode returns, falling as the atom gets heavier.
+
+Caveats: C28Si and C28Ge used a smaller supercell because the larger one did not fit in memory. The potential gives pure germanium and tin cells about 2% too large, so bonds involving them are approximate. None of the three has been checked with DFT, and the claim about electronic properties is not tested here.
+
 ## What this is not
 
 - **The DFT phonons cover the zone centre only.** They were computed in the 56-atom primitive cell, so they test the Γ point. Stability away from Γ rests on the machine-learned potential. A full DFT dispersion needs a 448-atom supercell, which is beyond the free computing used here.
@@ -119,7 +141,7 @@ The same relaxation and phonon test on two relatives of hyperdiamond. Neither ha
 
 Done: DFT relaxation and zone-centre phonons, machine-learned phonons across the zone, soft-mode analysis, elastic constants, molecular dynamics.
 
-Also done at screening level: hyperlonsdaleite and C28C.
+Also done at screening level: hyperlonsdaleite, C28C, and C28Si, C28Ge and C28Sn.
 
 Next: a DFT check of hyperlonsdaleite's very soft mode, and a full read of the earlier literature.
 
@@ -146,6 +168,9 @@ python stability.py hyper --model large --tag hyper_large
 python stability.py hyper --supercell 3 --tag hyper_medium_sc3
 python stability.py custom --cif c28c.cif --supercell 3 --tag c28c
 python stability.py custom --cif hyperlonsdaleite.cif --supercell 2,2,1 --tag hyperlonsdaleite
+python group4.py build && python group4.py refs
+python stability.py custom --cif c28sn.cif --supercell 3 --tag c28sn   # likewise c28si, c28ge
+python group4.py summary
 python extras.py softmode
 python extras.py elastic
 python extras.py md --temp 1500
@@ -167,6 +192,7 @@ python extras.py md --temp 1500
 | `hyperdiamond-stability/softmode_result.json`, `elastic_result.json`, `md_*_result.json` | Their results |
 | `hyperdiamond-stability/build_structures.py`, `c28c.cif`, `hyperlonsdaleite.cif` | Starting structures for the two related solids |
 | `hyperdiamond-stability/c28c_*`, `hyperlonsdaleite_*` | Their relaxed structures, phonon data and results |
+| `hyperdiamond-stability/group4.py`, `c28si_*`, `c28ge_*`, `c28sn_*`, `group4_*.json` | C28 with silicon, germanium or tin: builder, reference energies, results |
 | `dft/dft.py`, `dft/ci.sh`, `.github/workflows/dft.yml` | The DFT calculation and the workflow that runs it |
 | `dft/results/` | DFT-relaxed structures, forces and phonon results |
 
