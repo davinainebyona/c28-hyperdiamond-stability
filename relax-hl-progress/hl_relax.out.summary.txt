@@ -1,2 +1,7 @@
      24 Sym. Ops., with inversion, found (12 have fractional translation)
      number of k points=     2
+!    total energy              =   -2059.79134299 Ry
+     convergence has been achieved in  15 iterations
+     Total force =     0.296204     Total SCF correction =     0.000033
+          total   stress  (Ry/bohr**3)                   (kbar)     P=       -6.95
+     new unit-cell volume =  13710.91467 a.u.^3 (  2031.74794 Ang^3 )
