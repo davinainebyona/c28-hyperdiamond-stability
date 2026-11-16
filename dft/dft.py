@@ -1,7 +1,7 @@
 """DFT check of C28 hyperdiamond with Quantum ESPRESSO (PBE, PAW), run on GitHub Actions.
 
 Steps (each a separate job, because one runner is limited to 6 hours):
-    python dft.py relax NAME          # variable-cell relaxation        NAME = diamond | hyper
+    python dft.py relax NAME          # variable-cell relaxation        NAME = diamond | hyper | hl (hyperlonsdaleite)
     python dft.py disp NAME INDEX     # forces for one displaced cell
     python dft.py collect NAME        # zone-centre phonons from all displaced cells
 
@@ -21,7 +21,8 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 RES = os.path.join(HERE, "results")
 PSEUDO = {"C": "C.pbe-n-kjpaw_psl.1.0.0.UPF"}
 ECUTWFC, ECUTRHO = 45.0, 360.0          # Ry; SSSP-recommended for this pseudopotential
-KPTS = {"diamond": (8, 8, 8), "hyper": (2, 2, 2)}
+KPTS = {"diamond": (8, 8, 8), "hyper": (2, 2, 2), "hl": (2, 2, 1)}
+START = {"hyper": "hyper_relaxed.cif", "hl": "hyperlonsdaleite_relaxed.cif"}   # ML-relaxed starting structures
 DISPLACEMENT = 0.03                      # Angstrom; larger than the ML run so soft-mode forces sit above DFT noise
 NP = os.environ.get("NP", "4")
 THZ_TO_CM = 33.35641
@@ -36,7 +37,7 @@ def symmetrised_primitive(atoms):
 def start_structure(name):
     if name == "diamond":
         return bulk("C", "diamond", a=3.57)
-    return symmetrised_primitive(read(os.path.join(HERE, "..", "hyperdiamond-stability", "hyper_relaxed.cif")))
+    return symmetrised_primitive(read(os.path.join(HERE, "..", "hyperdiamond-stability", START[name])))
 
 
 def run_pw(atoms, label, calculation, kpts, conv_thr):
@@ -95,7 +96,8 @@ def relax(name):
     for line in text.splitlines():
         if line.strip().startswith("!"):
             energy = float(line.split("=")[1].split()[0]) * 13.605693123  # Ry -> eV, last occurrence is the final structure
-    extra = {"space_group": sg, "n_atoms": len(at_sym), "a_conventional_A": round(float((4 * at_sym.get_volume()) ** (1 / 3)), 4),
+    extra = {"space_group": sg, "n_atoms": len(at_sym), "a_conventional_A": round(float((4 * at_sym.get_volume()) ** (1 / 3)), 4) if name != "hl" else None,
+             "cell_lengths_angles": [round(float(x), 4) for x in at_sym.cell.cellpar()], "volume_A3_per_atom": round(float(at_sym.get_volume() / len(at_sym)), 4),
              "energy_eV_per_atom": energy / len(at), "density_g_cm3": round(len(at_sym) * 12.011 * 1.66053907 / at_sym.get_volume(), 4),
              "bonds_A": bonds(at_sym), "n_ionic_steps": text.count("number of scf cycles") or None,
              "settings": {"functional": "PBE", "pseudopotential": PSEUDO["C"], "ecutwfc_Ry": ECUTWFC, "ecutrho_Ry": ECUTRHO, "kpoints": list(KPTS[name])}}

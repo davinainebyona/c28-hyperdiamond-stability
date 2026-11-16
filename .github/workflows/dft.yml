@@ -95,3 +95,59 @@ jobs:
       - run: bash dft/ci.sh publish "DFT - hyperdiamond zone-centre phonons"
       - if: always()
         run: bash dft/ci.sh logs collect
+
+  relax_hl:
+    name: Hyperlonsdaleite relaxation
+    runs-on: ubuntu-latest
+    timeout-minutes: 355
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: bash dft/ci.sh setup
+      - name: Save progress logs every 10 minutes
+        run: (while true; do sleep 600; bash dft/ci.sh logs relax-hl-progress; done) &
+      - run: cd dft && python dft.py relax hl
+      - run: bash dft/ci.sh publish "DFT - hyperlonsdaleite relaxed structure"
+      - if: always()
+        run: bash dft/ci.sh logs relax-hl
+
+  disp_hl:
+    name: Hyperlonsdaleite displacement ${{ matrix.index }}
+    needs: relax_hl
+    runs-on: ubuntu-latest
+    timeout-minutes: 355
+    strategy:
+      fail-fast: false
+      max-parallel: 17
+      matrix:
+        index: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: bash dft/ci.sh setup
+      - run: bash dft/ci.sh sync
+      - run: cd dft && python dft.py disp hl ${{ matrix.index }}
+      - run: bash dft/ci.sh publish "DFT - hyperlonsdaleite forces ${{ matrix.index }}"
+      - if: always()
+        run: bash dft/ci.sh logs disp-hl-${{ matrix.index }}
+
+  collect_hl:
+    name: Hyperlonsdaleite phonons from forces
+    needs: disp_hl
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: bash dft/ci.sh setup
+      - run: bash dft/ci.sh sync
+      - run: cd dft && python dft.py collect hl
+      - run: bash dft/ci.sh publish "DFT - hyperlonsdaleite zone-centre phonons"
+      - if: always()
+        run: bash dft/ci.sh logs collect-hl
