@@ -1,0 +1,2 @@
+     24 Sym. Ops., with inversion, found (12 have fractional translation)
+     number of k points=     2
