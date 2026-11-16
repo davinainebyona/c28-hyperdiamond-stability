@@ -35,3 +35,8 @@
      Total force =     0.011724     Total SCF correction =     0.000040
           total   stress  (Ry/bohr**3)                   (kbar)     P=        1.23
      new unit-cell volume =  13832.02197 a.u.^3 (  2049.69418 Ang^3 )
+!    total energy              =   -2059.83540904 Ry
+     convergence has been achieved in  10 iterations
+     Total force =     0.008518     Total SCF correction =     0.000026
+          total   stress  (Ry/bohr**3)                   (kbar)     P=        0.40
+     new unit-cell volume =  13852.38417 a.u.^3 (  2052.71155 Ang^3 )
